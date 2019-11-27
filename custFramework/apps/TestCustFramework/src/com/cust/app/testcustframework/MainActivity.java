@@ -1,6 +1,11 @@
 /**
- * Test cust framework app
+ * File: MainActivity.java
+ * Breif: Test cust framework app
+ *
+ * Name: Adam chen
+ * Date: 
  */
+
 package com.cust.app.testcustframework;
 
 import com.cust.server.SpecialEffectsService;

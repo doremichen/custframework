@@ -1,4 +1,11 @@
-﻿// File: NativeService.h  
+﻿/**
+ * File: NativeService.h
+ * Breif: Declare NativeService class extedn BBinder
+ *
+ * Name: Adam chen
+ * Date: 
+ */
+
 #ifndef CUST_NATIVE_SERVICE_H  
 #define CUST_NATIVE_SERVICE_H
   

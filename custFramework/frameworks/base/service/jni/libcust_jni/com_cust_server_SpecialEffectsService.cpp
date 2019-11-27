@@ -1,3 +1,10 @@
+/**
+ * File: com_cust_server_SpecialEffectsService.cpp
+ * Breif: This is jni core implementation
+ *
+ * Name: Adam chen
+ * Date: 
+ */
 
 #define LOG_NDEBUG 0
 #define LOG_TAG "libcust_jni"

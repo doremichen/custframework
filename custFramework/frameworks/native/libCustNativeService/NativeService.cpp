@@ -1,4 +1,11 @@
-﻿// File: NativeService.cpp
+﻿/**
+ * File: NativeService.cpp
+ * Breif: Implement native Service 
+ *
+ * Name: Adam chen
+ * Date: 
+ */
+
 #define LOG_NDEBUG 0
 #define LOG_TAG "NativeService"
 #include <cutils/log.h>

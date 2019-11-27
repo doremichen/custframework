@@ -1,3 +1,10 @@
+/**
+ * File: custhal.c
+ * Breif: This is hal module.
+ *
+ * Name: Adam chen
+ * Date: 
+ */
 
 #define LOG_NDEBUG 0
 #define LOG_TAG "cust_device_hal"
@@ -16,12 +23,15 @@
 #include <custhal/custhal.h>
 #include <cutils/log.h>
 
+// Device node
 #define LIGHT_BRIGHTNESS "/sys/class/leds/lcd-backlight/brightness"
 
+/**
+ * hal device content
+ */
 typedef struct {
     struct cust_device_t device;
 }cust_effects_context_t;
-
 
 static int cust_device_open(const struct hw_module_t* module,
                          const char* name,
@@ -78,6 +88,9 @@ static int cust_effects_device_off(struct cust_device_t *dev)
     return ret;
 }
 
+/**
+ * Initial cust hal device content
+ */
 static int cust_device_open(const struct hw_module_t* module,
               const char* name,
               struct hw_device_t** device)

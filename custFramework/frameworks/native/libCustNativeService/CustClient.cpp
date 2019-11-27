@@ -1,4 +1,11 @@
-﻿// File: CustClient.cpp
+﻿/**
+ * File: CustClient.cpp
+ * Breif: Implement Client class
+ *
+ * Name: Adam chen
+ * Date: 
+ */
+
 #define LOG_NDEBUG 0  
 #define LOG_TAG "CustClient"
 #include <cutils/log.h>

@@ -1,4 +1,11 @@
-﻿// File: CustClient.h  
+﻿/**
+ * File: CustClient.h
+ * Breif: Declare Client class
+ *
+ * Name: Adam chen
+ * Date: 
+ */
+
 #ifndef CUST_CLIENT__H  
 #define CUST_CLIENT__H  
 

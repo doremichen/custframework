@@ -1,3 +1,11 @@
+/**
+ * File: custhal.h
+ * Breif: Declare the information about cust hal module
+ *
+ * Name: Adam chen
+ * Date: 
+ */
+
 #ifndef CUST_HAL_H
 #define CUST_HAL_H
 

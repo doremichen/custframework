@@ -1,3 +1,11 @@
+/**
+ * File: SpecialEffectsService.java
+ * Breif: Jni method controller
+ *
+ * Name: Adam chen
+ * Date: 
+ */
+
 package com.cust.server;
 
 import android.content.Context;

@@ -1,5 +1,9 @@
 /**
- *  Facade controller
+ * File: SpecialEffectManager.java
+ * Breif: Facade controller
+ *
+ * Name: Adam chen
+ * Date: 
  */
 
 package custdroid.hardware;

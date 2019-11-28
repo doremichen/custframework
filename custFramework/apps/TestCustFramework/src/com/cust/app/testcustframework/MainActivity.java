@@ -9,7 +9,6 @@
 package com.cust.app.testcustframework;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
@@ -19,12 +18,10 @@ import android.app.ListActivity;
 
 import custdroid.hardware.SpecialEffectManager;
 import custdroid.hardware.SpecialEffectManager.OnStatusListener;
+import custdroid.util.Print;
 
 
 public class MainActivity extends ListActivity implements OnStatusListener {
-
-    private static final String TAG = "MainActivity";
-    private static final boolean DEBUG = true;
     
     private SpecialEffectManager mSPEManager;
     
@@ -58,7 +55,6 @@ public class MainActivity extends ListActivity implements OnStatusListener {
 
     @Override
     protected void onDestroy() {
-        // TODO Auto-generated method stub
         super.onDestroy();
         mSPEManager.release();
 
@@ -66,9 +62,8 @@ public class MainActivity extends ListActivity implements OnStatusListener {
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        // TODO Auto-generated method stub
         super.onListItemClick(l, v, position, id);
-        
+        Print.info(this, "onListItemClick: position[" + position + "]");
         switch(position) {
             case ITEM1:
 //                Toast.makeText(this, getText(R.string.str_list_item1), Toast.LENGTH_SHORT).show();
@@ -103,12 +98,6 @@ public class MainActivity extends ListActivity implements OnStatusListener {
     public void onError(String str) {
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
-
-   
-    private void PrintfI(String str) {
-        if(DEBUG) Log.i(TAG, str);
-    }
-    
-   
+ 
 
 }

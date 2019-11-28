@@ -24,7 +24,7 @@ using namespace android;
 static const char* const kClassName =
         "com/cust/server/SpecialEffectsService";
         
-static CustClient* pClient = NULL;        
+static CustClient* pClient = NULL;
 
 /*
  * The method below are not thread-safe and not intended to be 
@@ -33,37 +33,40 @@ static jint
 special_effects_init(JNIEnv *env, jclass clazz)
 {
     ALOGV("[%s] enter\n", __FUNCTION__);
+    jint ret;
     
     if(pClient == NULL) {
-        pClient = new CustClient;   
+        pClient = new CustClient;
     }    
     
-    pClient->init_module();
+    ret = pClient->init_module();
     
-    return 0;
+    return ret;
 }
 
 static jint
 special_effects_on(JNIEnv *env, jclass clazz)
 {
     ALOGV("[%s] enter\n", __FUNCTION__);
+    jint ret;
     
-    pClient->turn_on_lcd(); 
+    ret = pClient->turn_on_lcd(); 
     
-    return 0;   
+    return ret;   
 }
 
 static jint
 special_effects_off(JNIEnv *env, jclass clazz)
 {
     ALOGV("[%s] enter\n", __FUNCTION__);
+    jint ret;
     
-    pClient->turn_off_lcd(); 
+    ret = pClient->turn_off_lcd(); 
     
-    return 0;
+    return ret;
 }
 
-static jint
+static void
 special_effects_release(JNIEnv *env, jclass clazz)
 {
     ALOGV("[%s] enter\n", __FUNCTION__);
@@ -71,15 +74,13 @@ special_effects_release(JNIEnv *env, jclass clazz)
         delete pClient;
         pClient = NULL;  
     }
-    
-    return 0;
 }
 
 static JNINativeMethod gMethods[] = {
     {"_special_effects_init",     "()I", (void*) special_effects_init },
     {"_special_effects_on", "()I", (void*) special_effects_on },
     {"_special_effects_off", "()I", (void*) special_effects_off },
-    {"_special_effects_release", "()I", (void*) special_effects_release }
+    {"_special_effects_release", "()V", (void*) special_effects_release }
 };
 
 

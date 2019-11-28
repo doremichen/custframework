@@ -13,10 +13,11 @@
 #include "NativeService.h"
 #include <binder/IServiceManager.h>  
 #include <binder/IPCThreadState.h> 
+#include <errno.h>
 
 #include <custhal/custhal.h> 
 
-namespace android {  
+namespace android {
     
     static cust_device_t *custDevice = 0;
     
@@ -51,20 +52,20 @@ namespace android {
     int NativeService::module_init()
     {
         ALOGV("[%s] enter\n", __FUNCTION__);
-        int ret = 1;
+        int ret = 0;  // Success
         
          //get android hal module and device
         cust_module_t const * module;
         if (hw_get_module(CUST_HARDWARE_MODULE_ID, (const hw_module_t**)&module) == 0) {
             ALOGV("[%s]: hw_get_module \n", __FUNCTION__);
-            if (cust_effects_open(&module->common, &custDevice ) != 0) {
+            if (cust_effects_open(&module->common, &custDevice) != 0) {
                  ALOGE("[%s]: special_effects_open fail! \n", __FUNCTION__);
-                 ret = 0;
+                 ret = EINVAL;  // Invalid argument
             }
              
         } 
         ALOGV("[%s] done\n", __FUNCTION__);
-        return ret;      
+        return ret;
             
     }        
  
@@ -79,31 +80,31 @@ namespace android {
         {   
             case INIT_NATIVE_MODULE: {  
                 pid_t pid = data.readInt32();  
-                int ret = module_init();   //init android hal module               
+                int ret = module_init();   // init android hal module
                 reply->writeInt32(ret);  
                 return NO_ERROR;
             }
-                break;
+            break;
             
             
             case TURN_ON_EFFECT: {  
                 pid_t pid = data.readInt32();  
-                int ret = custDevice->cust_effects_on(custDevice);   //turn on led               
+                int ret = custDevice->cust_effects_on(custDevice);   // turn on led
                 reply->writeInt32(ret);  
                 return NO_ERROR;
             }
-                break; 
+            break; 
                 
             case TURN_OFF_EFFECT: {  
                 pid_t pid = data.readInt32();  
-                int ret = custDevice->cust_effects_off(custDevice);   //turn off led                 
+                int ret = custDevice->cust_effects_off(custDevice);   // turn off led
                 reply->writeInt32(ret);  
                 return NO_ERROR;
             }
-                break;         
+            break;
                   
             default:  
-                return BBinder::onTransact(code, data, reply, flags);  
+                return BBinder::onTransact(code, data, reply, flags);
         }  
     }
     

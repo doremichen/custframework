@@ -14,9 +14,9 @@ import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.os.IBinder;
 import android.util.Config;
-import android.util.Log;
 
 import custdroid.hardware.ISpecialEffectService;
+import custdroid.util.Print;
 
 import java.util.ArrayList;
 
@@ -26,58 +26,95 @@ import java.util.ArrayList;
  */
 
 public final class SpecialEffectsService extends ISpecialEffectService.Stub {
-    static final String TAG = SpecialEffectsService.class.getSimpleName();
-    private static final boolean DEBUG = true;
 
-
+    // load jni so file
     static {
         System.loadLibrary("cust_jni");
     }
 
     public SpecialEffectsService() {
-       PrintI("SpecialEffectsService startup");
+       Print.info(this, "SpecialEffectsService startup");
     }
     
+    /**
+     * Initialize cust hal module
+     * 
+     * @return Success if 0 otherwise Fail
+     */
     @Override
     public boolean SpecialEffectInit() {
-       PrintI("SpecialEffectInit");
-       int ret = _special_effects_init();
+       Print.info(this, "SpecialEffectInit");
+       long ident = Binder.clearCallingIdentity();
+       int ret;
+       try {
+           ret = _special_effects_init();
+       } finally {
+           Binder.restoreCallingIdentity(ident);
+       }
        
-       return true;   
+       return (ret != 0)? false: true;
         
     }
     
+    /**
+     * Turn on screen light
+     * 
+     * @return Success if 0 otherwise Fail
+     */
     @Override
     public boolean SpecialEffectsOn() {
-        PrintI("SpecialEffectsOn");
-        int ret = _special_effects_on();
-        return (ret<0) ? false : true;
+        Print.info(this, "SpecialEffectsOn");
+        long ident = Binder.clearCallingIdentity();
+        int ret;
+        try {
+          ret = _special_effects_on();
+        } finally {
+           Binder.restoreCallingIdentity(ident);
+        }
+        
+        return (ret != 0)? false : true;
     }
     
+    /**
+     * Turn off screen light
+     * 
+     * @return Success if 0 otherwise Fail
+     */
     @Override
     public boolean SpecialEffectsOff() {
-        PrintI("SpecialEffectsOff");
-        int ret = _special_effects_off();
-        return (ret<0) ? false : true;
+        Print.info(this, "SpecialEffectsOff");
+        long ident = Binder.clearCallingIdentity();
+        int ret;
+        try {
+          ret = _special_effects_off();
+        } finally {
+           Binder.restoreCallingIdentity(ident);
+        }
+        return (ret != 0)? false : true;
     }
     
+    /**
+     * Release resource
+     * 
+     * @return Success if 0 otherwise Fail
+     */
     @Override
-    public boolean release() {
-        PrintI("release");
-        int ret = _special_effects_release();
-        
-        return true;
-    }    
+    public void release() {
+        Print.info(this, "release");
+        long ident = Binder.clearCallingIdentity();
+        int ret;
+        try {
+            _special_effects_release();
+        } finally {
+           Binder.restoreCallingIdentity(ident);
+        }
+    }
  
-    private void PrintI(String str) {
-        
-        if(DEBUG) Log.i(TAG, str);    
-        
-    }    
- 
- 
+    /**
+     * jni method section
+     */
     private native final int _special_effects_init();
     private native final int _special_effects_on();
     private native final int _special_effects_off();
-    private native final int _special_effects_release();
+    private native final void _special_effects_release();
 }

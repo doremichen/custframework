@@ -42,9 +42,7 @@ static int cust_device_close (struct hw_device_t* device)
 {
     cust_effects_context_t *dev;
     ALOGV("[%s] enter\n", __FUNCTION__);
-    
-        dev = (cust_effects_context_t *)malloc(sizeof(*dev));   
-        dev = (cust_effects_context_t *)device;
+    dev = (cust_effects_context_t *)device;
     if(dev)
         free (dev);
     return 0;
@@ -53,24 +51,23 @@ static int cust_device_close (struct hw_device_t* device)
 static int sendcmd(int brightness)
 {
      ALOGV("[%s] enter\n", __FUNCTION__);
-     int lfd, nwr, ret = 1;
+     int fd, nwr;
      char lbuf[20];
      
-     lfd = open(LIGHT_BRIGHTNESS, O_RDWR);
+     fd = open(LIGHT_BRIGHTNESS, O_RDWR);
      
-     if(lfd < 0) {
-        ret = 0;
-        ALOGE("[%s]: open device fail! errno[%d]", __FUNCTION__, errno);
-        return ret;        
+     if(fd < 0) {
+        ALOGE("[%s]: open device fail! err:[%s]", __FUNCTION__, strerror(errno));
+        return errno;
      }
      
      nwr = sprintf(lbuf, "%d\n", brightness);
-     write(lfd, lbuf, nwr);
+     write(fd, lbuf, nwr);
      
-     close(lfd);
+     close(fd);
      
  
-     return ret;
+     return 0; //success
 }
 
 
@@ -97,10 +94,9 @@ static int cust_device_open(const struct hw_module_t* module,
 {
     ALOGV("[%s] enter\n", __FUNCTION__);
     cust_effects_context_t *dev;
-    int status = -EINVAL;
     
     dev = (cust_effects_context_t *)malloc(sizeof(*dev));
-    if (! dev) return status;
+    if (! dev) return EFAULT;  //Bad address
      
     dev->device.common.tag = HARDWARE_DEVICE_TAG;
     dev->device.common.version = 0; 
@@ -111,10 +107,9 @@ static int cust_device_open(const struct hw_module_t* module,
     dev->device.cust_effects_off = cust_effects_device_off;
    
     *device = &dev->device.common;
-    status = 0;
     ALOGV("[%s] exit!\n", __FUNCTION__);
     
-    return status;
+    return 0; // success
 }
 
 

@@ -17,5 +17,5 @@ interface ISpecialEffectService
    boolean SpecialEffectInit();
    boolean SpecialEffectsOn();
    boolean SpecialEffectsOff();
-   boolean release();
+   void release();
 }

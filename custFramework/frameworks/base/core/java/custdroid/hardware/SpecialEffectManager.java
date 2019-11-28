@@ -124,20 +124,19 @@ public final class SpecialEffectManager
     /**
      * Release resource
      */
-     public boolean release() {
+     public void release() {
         PrintI("[release] enter");
         if (!checkServiceProxyValid()) {
             // notify UI
             this.mStatusListener.onError("No binder proxy");
-            return false;
+            return;
         }
-        boolean ret = false;
+
         try {
-            ret = mBpSPEService.release();
+            mBpSPEService.release();
         } catch (RemoteException e) {
             Log.e(TAG, "RemoteException turn off fail:", e);
         }
-        return ret;
      }
     
     /**

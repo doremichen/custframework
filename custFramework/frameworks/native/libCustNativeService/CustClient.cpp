@@ -48,14 +48,14 @@ namespace android
     int CustClient::init_module()  
     {   
         ALOGV("[%s]: enter\n", __FUNCTION__);
-        Parcel data, reply;  
-        int ret;  
+        Parcel data, reply;
+        int ret;
           
         data.writeInt32(getpid());    
         ALOGE("[%s]: CustClient::init_module remote()->transact()\n", __FUNCTION__);  
         BpCustNativeService->transact(INIT_MODULE, data, &reply);  
         ret = reply.readInt32();  
-        ALOGV("[%s]: ret = %d\n", __FUNCTION__, ret);      
+        ALOGV("[%s]: ret = %d\n", __FUNCTION__, ret);
         return ret;  
     }  
     
@@ -72,7 +72,7 @@ namespace android
         ALOGE("[%s]: CustClient::turn_on_lcd remote()->transact()\n", __FUNCTION__);  
         BpCustNativeService->transact(LCD_TURN_ON, data, &reply);  
         ret = reply.readInt32();  
-        ALOGV("[%s]: ret = %d\n", __FUNCTION__, ret);      
+        ALOGV("[%s]: ret = %d\n", __FUNCTION__, ret);
         return ret;  
     }  
 
@@ -89,7 +89,7 @@ namespace android
         ALOGE("[%s]: CustClient::turn_off_lcd remote()->transact()\n", __FUNCTION__);  
         BpCustNativeService->transact(LCD_TURN_OFF, data, &reply);  
         ret = reply.readInt32();  
-        ALOGV("[%s]: ret = %d\n", __FUNCTION__, ret);      
+        ALOGV("[%s]: ret = %d\n", __FUNCTION__, ret);
         return ret;  
     }  
      

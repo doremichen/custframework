@@ -117,4 +117,11 @@ public final class SpecialEffectsService extends ISpecialEffectService.Stub {
     private native final int _special_effects_on();
     private native final int _special_effects_off();
     private native final void _special_effects_release();
+    
+    /**
+     * invoke from jni
+     */
+     private void notifyFromNative(String msg) {
+         Print.info(this, "[notifyFromNative]: msg = " + msg);
+     }
 }

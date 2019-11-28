@@ -19,12 +19,57 @@
 #include <unistd.h>
 #include <CustClient.h>
 
+
+#define FIND_CLASS(var, className) \
+        var = env->FindClass(className); \
+        LOG_FATAL_IF(! var, "Unable to find class " className);
+
+#define GET_METHOD_ID(var, clazz, methodName, fieldDescriptor) \
+        var = env->GetMethodID(clazz, methodName, fieldDescriptor); \
+        LOG_FATAL_IF(! var, "Unable to find method " methodName);
+
+#define GET_FIELD_ID(var, clazz, fieldName, fieldDescriptor) \
+        var = env->GetFieldID(clazz, fieldName, fieldDescriptor); \
+        LOG_FATAL_IF(! var, "Unable to find field " fieldName);
+
 using namespace android;
 
 static const char* const kClassName =
         "com/cust/server/SpecialEffectsService";
         
 static CustClient* pClient = NULL;
+
+static struct {
+    /**
+        // for the field of java layer
+        jfieldID value;
+    */
+    // for the method of java layer
+    jmethodID nativeCallBack;
+} gJavaClassInfo;
+
+/**
+ * Used to notify java layer
+ */
+ static void
+ notifyJavaLayer(JNIEnv *env, const char* str) {
+     ALOGV("[%s] enter\n", __FUNCTION__);
+     jclass clazz;
+     jstring msgStr = env->NewStringUTF(str);
+     if (!msgStr) {
+            ALOGE("[%s]: Out of memory!!!\n", __FUNCTION__);
+            return; // out of memory error
+     }
+     
+     FIND_CLASS(clazz, "com/cust/server/SpecialEffectsService");
+     
+     jobject thiz = env -> AllocObject(clazz);
+     
+     ALOGV("[%s] invoke java method\n", __FUNCTION__);
+     // invoke java method
+     env -> CallVoidMethod(thiz, gJavaClassInfo.nativeCallBack, msgStr);
+ }
+
 
 /*
  * The method below are not thread-safe and not intended to be 
@@ -41,6 +86,8 @@ special_effects_init(JNIEnv *env, jclass clazz)
     
     ret = pClient->init_module();
     
+    notifyJavaLayer(env, "initialize Successful...");
+    
     return ret;
 }
 
@@ -52,7 +99,9 @@ special_effects_on(JNIEnv *env, jclass clazz)
     
     ret = pClient->turn_on_lcd(); 
     
-    return ret;   
+    notifyJavaLayer(env, "turn on screen light...");
+    
+    return ret;
 }
 
 static jint
@@ -62,6 +111,8 @@ special_effects_off(JNIEnv *env, jclass clazz)
     jint ret;
     
     ret = pClient->turn_off_lcd(); 
+    
+    notifyJavaLayer(env, "turn off screen light...");
     
     return ret;
 }
@@ -74,6 +125,8 @@ special_effects_release(JNIEnv *env, jclass clazz)
         delete pClient;
         pClient = NULL;  
     }
+    
+    notifyJavaLayer(env, "release Successful...");
 }
 
 static JNINativeMethod gMethods[] = {
@@ -103,6 +156,10 @@ static int registerMethods(JNIEnv* env)
         ALOGE("[%s]: Failed registering methods for %s\n", __FUNCTION__, kClassName);
         return -1;
     }
+
+    // get method id of java class
+    GET_METHOD_ID(gJavaClassInfo.nativeCallBack,
+            clazz, "notifyFromNative", "(Ljava/lang/String;)V");
 
     /* fill out the rest of the ID cache */
     return 0;

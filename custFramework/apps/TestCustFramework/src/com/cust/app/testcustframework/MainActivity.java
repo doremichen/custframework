@@ -8,8 +8,6 @@
 
 package com.cust.app.testcustframework;
 
-import com.cust.server.SpecialEffectsService;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,21 +18,21 @@ import android.widget.Toast;
 import android.app.ListActivity;
 
 import custdroid.hardware.SpecialEffectManager;
+import custdroid.hardware.SpecialEffectManager.OnStatusListener;
 
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends ListActivity implements OnStatusListener {
 
     private static final String TAG = "MainActivity";
     private static final boolean DEBUG = true;
     
-    private ListAdapter mAdapter = null;
+    private SpecialEffectManager mSPEManager;
+    
+    private ListAdapter mAdapter;
     
     private static final int ITEM1 = 0;
     private static final int ITEM2 = 1;
     private static final int Exit = 2;
-    
-    
-    private SpecialEffectsService sfe_svr = null;
     
     private final String[] mStrings = new String[]{
         "turn on",
@@ -46,8 +44,8 @@ public class MainActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        
-        sfe_svr = SpecialEffectManager.getSpecialEffectsService(this);
+        mSPEManager = SpecialEffectManager.getInstance();
+        mSPEManager.init(this);
         
         mAdapter = (ListAdapter) new ArrayAdapter<String>(this, 
                 android.R.layout.simple_list_item_1,
@@ -62,7 +60,7 @@ public class MainActivity extends ListActivity {
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-        sfe_svr.release();
+        mSPEManager.release();
 
     }
 
@@ -74,11 +72,11 @@ public class MainActivity extends ListActivity {
         switch(position) {
             case ITEM1:
 //                Toast.makeText(this, getText(R.string.str_list_item1), Toast.LENGTH_SHORT).show();
-                sfe_svr.SpecialEffectsOn();
+                mSPEManager.turnOn();
                 break;
             case ITEM2:
 //                Toast.makeText(this, getText(R.string.str_list_item2), Toast.LENGTH_SHORT).show();
-                sfe_svr.SpecialEffectsOff();
+                mSPEManager.turnOff();
                 break;
             case Exit:
                 finish();
@@ -96,6 +94,14 @@ public class MainActivity extends ListActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    /**
+     * This is invoked from SpecialEffectManager controller
+     */
+    @Override
+    public void onError(String str) {
+        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
 
    

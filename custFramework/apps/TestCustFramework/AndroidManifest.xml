@@ -1,30 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.cust.app.testcustframework"
-	android:versionCode="1"
-	android:versionName="1.0" >
+    package="com.cust.app.testcustframework"
+    android:versionCode="1"
+    android:versionName="1.0" 
+    android:sharedUserId="android.uid.system">
 
-	<uses-sdk
-		android:minSdkVersion="8"
-		android:targetSdkVersion="17" />
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+        
+        <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-	<application
-		android:allowBackup="true"
-		android:icon="@drawable/ic_launcher"
-		android:label="@string/app_name"
-		android:theme="@style/AppTheme" >
-		
-		<uses-library android:name="com.custframework.server" />
-		
-		<activity
-			android:name=".MainActivity"
-			android:label="@string/app_name" >
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        
+        <!-- This tells the system about the custom library used by the
+             application, so that it can be properly loaded and linked
+             to the app when the app is initialized. -->
+        <uses-library android:name="com.custframework.server" />
+        
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-	</application>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <receiver android:name="CustAppReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <service android:name="CustBootService"></service>
+    </application>
 
 </manifest>

@@ -16,6 +16,8 @@ import android.os.IBinder;
 import android.util.Config;
 import android.util.Log;
 
+import custdroid.hardware.ISpecialEffectService;
+
 import java.util.ArrayList;
 
 
@@ -23,7 +25,7 @@ import java.util.ArrayList;
  * JNI interface
  */
 
-public final class SpecialEffectsService {
+public final class SpecialEffectsService extends ISpecialEffectService.Stub {
     static final String TAG = SpecialEffectsService.class.getSimpleName();
     private static final boolean DEBUG = true;
 
@@ -32,12 +34,11 @@ public final class SpecialEffectsService {
         System.loadLibrary("cust_jni");
     }
 
-   
-    @SuppressWarnings("unused")
-    public SpecialEffectsService(Context context) {
+    public SpecialEffectsService() {
        PrintI("SpecialEffectsService startup");
     }
     
+    @Override
     public boolean SpecialEffectInit() {
        PrintI("SpecialEffectInit");
        int ret = _special_effects_init();
@@ -46,18 +47,21 @@ public final class SpecialEffectsService {
         
     }
     
+    @Override
     public boolean SpecialEffectsOn() {
         PrintI("SpecialEffectsOn");
         int ret = _special_effects_on();
         return (ret<0) ? false : true;
     }
     
+    @Override
     public boolean SpecialEffectsOff() {
         PrintI("SpecialEffectsOff");
         int ret = _special_effects_off();
         return (ret<0) ? false : true;
     }
     
+    @Override
     public boolean release() {
         PrintI("release");
         int ret = _special_effects_release();

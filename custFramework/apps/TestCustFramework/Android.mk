@@ -13,6 +13,9 @@ LOCAL_SRC_FILES := $(call all-java-files-under, src)
 
 LOCAL_PACKAGE_NAME := TestCustFramework
 
+# We need to assign platform key to use ServiceManager.addService.
+LOCAL_CERTIFICATE := platform
+
 # Also link against our own custom library.
 LOCAL_JAVA_LIBRARIES := custframework
 

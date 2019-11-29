@@ -8,6 +8,7 @@
  
 package custdroid.hardware;
 
+import custdroid.hardware.IServiceCallBack;
 
 /**
  * {@hide}
@@ -18,4 +19,7 @@ interface ISpecialEffectService
    boolean SpecialEffectsOn();
    boolean SpecialEffectsOff();
    void release();
+   
+   void registerCallBack(IServiceCallBack callback);
+   void unregisterCallBack(IServiceCallBack callback);
 }

@@ -18,23 +18,25 @@ import android.os.RemoteException;
 import android.os.Handler;
 import android.os.Message;
 import android.os.ServiceManager;
-import android.util.Log;
 
+import custdroid.util.Print;
 import custdroid.hardware.ISpecialEffectService;
+import custdroid.hardware.IServiceCallBack;
 
 /**
  * Class that lets you access the Custdroid SpecialEffectsService.
  */
 public final class SpecialEffectManager
 {
-    private static final String TAG = "SpecialEffectManager";
-    private static final boolean DEBUG = true;
     
     // Binder proxy
     private ISpecialEffectService mBpSPEService;
     
     // Status listener
     private OnStatusListener mStatusListener;
+    
+    // Service callback
+    private ServiceCallBackImp mServiceCB = new ServiceCallBackImp();
     
     private static class Helper {
         private static final SpecialEffectManager sINSTANCE = new SpecialEffectManager();
@@ -53,6 +55,7 @@ public final class SpecialEffectManager
      private SpecialEffectManager() {
          mBpSPEService = ISpecialEffectService.Stub.asInterface(
                              ServiceManager.getService("cust.java.spe.sevice"));
+                            
      }
      
      /**
@@ -60,13 +63,33 @@ public final class SpecialEffectManager
       */
       public interface OnStatusListener {
           void onError(String str);
+          void onInfo(String str);
       }
+
+     /**
+      * Recieve the response from server
+      */
+      private class ServiceCallBackImp extends IServiceCallBack.Stub {
+          
+          @Override
+          public void info(String msg) {
+                long ident = Binder.clearCallingIdentity();
+                try {
+                    // notify UI
+                    SpecialEffectManager.this.mStatusListener.onInfo(msg);
+                } finally {
+                    Binder.restoreCallingIdentity(ident);
+                }
+          }
+      }
+
+
 
      /**
       * INitialize device hal module
       */
       public void init(OnStatusListener listener) {
-          PrintI("[turnOn] enter");
+          Print.info(this, "[turnOn] enter");
           this.mStatusListener = listener;
           if (!checkServiceProxyValid()) {
               // notify UI
@@ -74,10 +97,17 @@ public final class SpecialEffectManager
               return;
           }
           
+          // register callback
+          try {
+            mBpSPEService.registerCallBack(mServiceCB);
+          } catch (RemoteException e) {
+            Print.error(this, "RemoteException registerCallBack fail: " + e);
+          }
+          
           try {
             mBpSPEService.SpecialEffectInit();
           } catch (RemoteException e) {
-            Log.e(TAG, "RemoteException init fail:", e);
+            Print.error(this, "RemoteException init fail: " + e);
          }
       }
      
@@ -86,7 +116,7 @@ public final class SpecialEffectManager
      * Turn on screen light
      */
     public boolean turnOn() {
-        PrintI("[turnOn] enter");
+        Print.info(this, "[turnOn] enter");
         if (!checkServiceProxyValid()) {
             // notify UI
             this.mStatusListener.onError("No binder proxy");
@@ -96,7 +126,7 @@ public final class SpecialEffectManager
         try {
             ret = mBpSPEService.SpecialEffectsOn();
         } catch (RemoteException e) {
-            Log.e(TAG, "RemoteException turn on fail:", e);
+            Print.error(this, "RemoteException turn on fail: " + e);
         }
         return ret;
     }
@@ -105,7 +135,7 @@ public final class SpecialEffectManager
      * Turn off screen light
      */
      public boolean turnOff() {
-        PrintI("[turnOff] enter");
+        Print.info(this, "[turnOff] enter");
         if (!checkServiceProxyValid()) {
             // notify UI
             this.mStatusListener.onError("No binder proxy");
@@ -115,7 +145,7 @@ public final class SpecialEffectManager
         try {
             ret = mBpSPEService.SpecialEffectsOff();
         } catch (RemoteException e) {
-            Log.e(TAG, "RemoteException turn off fail:", e);
+            Print.error(this, "RemoteException turn off fail: " + e);
         }
         return ret;
      }
@@ -125,17 +155,24 @@ public final class SpecialEffectManager
      * Release resource
      */
      public void release() {
-        PrintI("[release] enter");
+        Print.info(this, "[release] enter");
         if (!checkServiceProxyValid()) {
             // notify UI
             this.mStatusListener.onError("No binder proxy");
             return;
         }
-
+        
         try {
             mBpSPEService.release();
         } catch (RemoteException e) {
-            Log.e(TAG, "RemoteException turn off fail:", e);
+            Print.error(this, "RemoteException release fail: " + e);
+        }
+        
+        // unregister callback
+        try {
+            mBpSPEService.unregisterCallBack(mServiceCB);
+        } catch (RemoteException e) {
+            Print.error(this, "RemoteException unregisterCallBack fail: " + e);
         }
      }
     
@@ -143,14 +180,8 @@ public final class SpecialEffectManager
      * Binder proxy validity check
      */
     private boolean checkServiceProxyValid() {
-        PrintI("[checkServiceProxyValid] enter");
+        Print.info(this, "[checkServiceProxyValid] enter");
         return (mBpSPEService == null)? false: true;
     }
-    
-    private static void PrintI(String str) {
-        if(DEBUG) Log.i(TAG, str);   
-        
-    }
-   
     
 }

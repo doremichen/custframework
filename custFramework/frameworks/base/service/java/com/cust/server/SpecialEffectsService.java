@@ -11,11 +11,13 @@ package com.cust.server;
 import android.content.Context;
 import android.os.Binder;
 import android.os.ParcelFileDescriptor;
+import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.os.IBinder;
 import android.util.Config;
 
 import custdroid.hardware.ISpecialEffectService;
+import custdroid.hardware.IServiceCallBack;
 import custdroid.util.Print;
 
 import java.util.ArrayList;
@@ -36,6 +38,44 @@ public final class SpecialEffectsService extends ISpecialEffectService.Stub {
        Print.info(this, "SpecialEffectsService startup");
     }
     
+    /**
+     * Hanlde register/unregister and callback 
+     */
+     private static enum ServiceHandler {
+            INSTANCE;
+
+         // remote callback list
+         private final RemoteCallbackList<IServiceCallBack> mCallBacks = new RemoteCallbackList<IServiceCallBack>();
+         
+         
+         public void registerCB(IServiceCallBack cb) {
+             Print.info(this, "registerCB");
+             mCallBacks.register(cb);
+         }
+         
+         public void unregisterCB(IServiceCallBack cb) {
+             Print.info(this, "unregisterCB");
+             mCallBacks.unregister(cb);
+         }
+         
+         public void triggerCB(String msg) {
+             Print.info(this, "triggerCB");
+             final int N = mCallBacks.beginBroadcast();
+                     for (int i = 0; i < N; i++) {
+                         try {
+                             mCallBacks.getBroadcastItem(i).info(msg);
+                         } catch (RemoteException e) {
+                             /**
+                              * Dead object occured!!!
+                              */
+                         }
+                     }
+                     // finish broadcast
+                     mCallBacks.finishBroadcast();
+         }
+       
+     }
+
     /**
      * Initialize cust hal module
      * 
@@ -96,7 +136,7 @@ public final class SpecialEffectsService extends ISpecialEffectService.Stub {
     /**
      * Release resource
      * 
-     * @return Success if 0 otherwise Fail
+     * 
      */
     @Override
     public void release() {
@@ -105,6 +145,29 @@ public final class SpecialEffectsService extends ISpecialEffectService.Stub {
         int ret;
         try {
             _special_effects_release();
+        } finally {
+           Binder.restoreCallingIdentity(ident);
+        }
+    }
+ 
+    @Override
+    public void registerCallBack(IServiceCallBack callback) {
+        Print.info(this, "registerCallBack callback = " + callback.getClass().getSimpleName());
+        long ident = Binder.clearCallingIdentity();
+        try {
+            if (callback != null) ServiceHandler.INSTANCE.registerCB(callback);
+        } finally {
+           Binder.restoreCallingIdentity(ident);
+        }
+        
+    }
+    
+    @Override
+    public void unregisterCallBack(IServiceCallBack callback) {
+        Print.info(this, "unregisterCallBack callback = " + callback.getClass().getSimpleName());
+        long ident = Binder.clearCallingIdentity();
+        try {
+            if (callback != null) ServiceHandler.INSTANCE.unregisterCB(callback);
         } finally {
            Binder.restoreCallingIdentity(ident);
         }
@@ -123,5 +186,8 @@ public final class SpecialEffectsService extends ISpecialEffectService.Stub {
      */
      private void notifyFromNative(String msg) {
          Print.info(this, "[notifyFromNative]: msg = " + msg);
+         
+         // notify client
+         ServiceHandler.INSTANCE.triggerCB(msg);
      }
 }

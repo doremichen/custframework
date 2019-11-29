@@ -66,11 +66,9 @@ public class MainActivity extends ListActivity implements OnStatusListener {
         Print.info(this, "onListItemClick: position[" + position + "]");
         switch(position) {
             case ITEM1:
-//                Toast.makeText(this, getText(R.string.str_list_item1), Toast.LENGTH_SHORT).show();
                 mSPEManager.turnOn();
                 break;
             case ITEM2:
-//                Toast.makeText(this, getText(R.string.str_list_item2), Toast.LENGTH_SHORT).show();
                 mSPEManager.turnOff();
                 break;
             case Exit:
@@ -92,10 +90,15 @@ public class MainActivity extends ListActivity implements OnStatusListener {
     }
 
     /**
-     * This is invoked from SpecialEffectManager controller
+     * As following methods are invoked from SpecialEffectManager controller
      */
     @Override
     public void onError(String str) {
+        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+    }
+    
+    @Override
+    public void onInfo(String str) {
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
  

@@ -15,6 +15,7 @@
 #define LOG_NDEBUG 0  
 #define LOG_TAG "toolkits"
 #include <cutils/log.h>
+#include <sys/reboot.h>
 
 #include <utils/TextOutput.h>
 
@@ -36,11 +37,11 @@
 #include <android/log.h>
 
  
-#define LOGV(...) __android_log_print( ANDROID_LOG_VERBOSE, LOG_PRODTAG, __VA_ARGS__ )
-#define LOGD(...) __android_log_print( ANDROID_LOG_DEBUG,  LOG_PRODTAG, __VA_ARGS__ )
-#define LOGI(...) __android_log_print( ANDROID_LOG_INFO,  LOG_PRODTAG, __VA_ARGS__ )
-#define LOGW(...) __android_log_print( ANDROID_LOG_WARN,  LOG_PRODTAG, __VA_ARGS__ )
-#define LOGE(...) __android_log_print( ANDROID_LOG_ERROR,  LOG_PRODTAG, __VA_ARGS__ )
+#define LOGV(...) __android_log_print( ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__ )
+#define LOGD(...) __android_log_print( ANDROID_LOG_DEBUG,  LOG_TAG, __VA_ARGS__ )
+#define LOGI(...) __android_log_print( ANDROID_LOG_INFO,  LOG_TAG, __VA_ARGS__ )
+#define LOGW(...) __android_log_print( ANDROID_LOG_WARN,  LOG_TAG, __VA_ARGS__ )
+#define LOGE(...) __android_log_print( ANDROID_LOG_ERROR,  LOG_TAG, __VA_ARGS__ )
 
 
 //#define DEBUG    //for log
@@ -91,6 +92,18 @@ void executeMonkey() {
     }
 }
 
+void rebootDevice(int mode)
+{
+    int retval;
+ 
+    if ((retval = __reboot(LINUX_REBOOT_MAGIC1, LINUX_REBOOT_MAGIC2,
+            mode, NULL)) < 0) {
+        LOGE("Try to shutdown the machine failed!");
+        exit(EXIT_FAILURE);
+    }
+
+}
+
 
 int main(int argc, char* const argv[])
 {
@@ -126,6 +139,16 @@ int main(int argc, char* const argv[])
          aout << "Hello world!!! \n";
             
         }
+        else if (strcmp(argv[optind], "shutdown") == 0) {
+         
+            rebootDevice(RB_POWER_OFF);
+            
+        }
+        else if (strcmp(argv[optind], "reboot") == 0) {
+         
+            rebootDevice(RB_AUTOBOOT);
+            
+        }
         else if (strcmp(argv[optind], "pressP") == 0) {
          
             pressPowerButton();
@@ -149,6 +172,8 @@ int main(int argc, char* const argv[])
                 "             test show hello world\n"
                 "             pressP press power button\n"
                 "             runM run Monkey\n"
+                "             shutdown shutdown device\n"
+                "             reboot reboot device\n"
                 "       opt: h\n"
                 "Example:\n"
                 ;

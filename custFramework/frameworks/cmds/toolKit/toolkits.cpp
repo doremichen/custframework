@@ -49,8 +49,14 @@
 using namespace android;
 
 void pressPowerButton() {
+    printf("pressPowerButton!!!\n");
+    system("input keyevent 26");
+}
+
+
+void AutoPressPowerButton() {
     
-    printf("run system command!!!\n");
+    printf("AutoPressPowerButton!!!\n");
     
     pid_t pid;
     
@@ -104,6 +110,35 @@ void rebootDevice(int mode)
 
 }
 
+static void hello()
+{
+    aout << "Hello world!!! \n";
+}
+
+static void shutDownDevice()
+{
+    rebootDevice(RB_POWER_OFF);
+}
+
+static void rebootDevice()
+{
+    rebootDevice(RB_AUTOBOOT);
+}
+
+
+struct action {
+    const char *arg;
+    void (*pfunc)();
+} actMap[] = {
+    {"test", hello},
+    {"shutdown", shutDownDevice},
+    {"reboot", rebootDevice},
+    {"autopressP", AutoPressPowerButton},
+    {"pressP", pressPowerButton},
+    {"runM", executeMonkey},
+    {NULL, NULL},
+};
+
 
 int main(int argc, char* const argv[])
 {
@@ -114,6 +149,7 @@ int main(int argc, char* const argv[])
     
     while (1) {
         int ic = getopt(argc, argv, "h?");
+        printf("ic: %d\n", ic);
         if (ic < 0)
             break;
 
@@ -134,42 +170,30 @@ int main(int argc, char* const argv[])
         wantsUsage = true;
     } 
     else if (!wantsUsage) {
-        if (strcmp(argv[optind], "test") == 0) {
-         
-         aout << "Hello world!!! \n";
-            
+        bool validArg = false;
+        // look up table
+        for (unsigned int i = 0; actMap[i].arg != NULL; i++) {
+            if (strcmp(argv[optind], actMap[i].arg) == 0) {
+                validArg = true;
+                // call function
+                actMap[i].pfunc();
+                break;
+            }
         }
-        else if (strcmp(argv[optind], "shutdown") == 0) {
-         
-            rebootDevice(RB_POWER_OFF);
-            
-        }
-        else if (strcmp(argv[optind], "reboot") == 0) {
-         
-            rebootDevice(RB_AUTOBOOT);
-            
-        }
-        else if (strcmp(argv[optind], "pressP") == 0) {
-         
-            pressPowerButton();
-            
-        }
-        else if (strcmp(argv[optind], "runM") == 0) {
-         
-            executeMonkey();
-            
-        }
-        else {
+        
+        if (!validArg) {
             aerr << "atkservice: Unknown command " << argv[optind] << "\n";
             wantsUsage = true;
             result = 10;
         }
+
     }
     
     if (wantsUsage) {
         aout << "Usage: toolkits [name] [opt]\n"
                 "       name: h help infomation\n"
                 "             test show hello world\n"
+                "             autopressP auto press power button\n"
                 "             pressP press power button\n"
                 "             runM run Monkey\n"
                 "             shutdown shutdown device\n"

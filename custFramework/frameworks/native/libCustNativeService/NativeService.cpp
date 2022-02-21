@@ -79,7 +79,8 @@ namespace android {
         switch(code)  
         {   
             case INIT_NATIVE_MODULE: {  
-                pid_t pid = data.readInt32();  
+                pid_t pid = data.readInt32();
+                ALOGV("[%s]: pid[%d]\n", __FUNCTION__, pid);
                 int ret = module_init();   // init android hal module
                 reply->writeInt32(ret);  
                 return NO_ERROR;
@@ -88,7 +89,8 @@ namespace android {
             
             
             case TURN_ON_EFFECT: {  
-                pid_t pid = data.readInt32();  
+                pid_t pid = data.readInt32();
+                ALOGV("[%s]: pid[%d]\n", __FUNCTION__, pid);                
                 int ret = custDevice->cust_effects_on(custDevice);   // turn on led
                 reply->writeInt32(ret);  
                 return NO_ERROR;
@@ -97,6 +99,7 @@ namespace android {
                 
             case TURN_OFF_EFFECT: {  
                 pid_t pid = data.readInt32();  
+                ALOGV("[%s]: pid[%d]\n", __FUNCTION__, pid);
                 int ret = custDevice->cust_effects_off(custDevice);   // turn off led
                 reply->writeInt32(ret);  
                 return NO_ERROR;

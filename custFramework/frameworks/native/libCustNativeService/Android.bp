@@ -1,0 +1,108 @@
+
+cc_library_shared {
+    name: "libCustNativeService",
+
+    cflags: [
+        "-Wno-unused-parameter",
+        "-Wno-non-virtual-dtor",
+        "-Wno-maybe-uninitialized",
+        "-Wno-parentheses",
+
+        "-DGL_GLEXT_PROTOTYPES",
+        "-DEGL_EGLEXT_PROTOTYPES",
+
+        "-DU_USING_ICU_NAMESPACE=0",
+
+        "-Wall",
+        "-Werror",
+        "-Wno-error=deprecated-declarations",
+        "-Wunused",
+        "-Wunreachable-code",
+    ],
+
+    cppflags: ["-Wno-conversion-null"],
+
+    srcs: [
+        "NativeService.cpp",
+        "CustClient.cpp",
+    ],
+
+    include_dirs: [
+        // we need to access the private Bionic header
+        // <bionic_tls.h> in com_google_android_gles_jni_GLImpl.cpp
+        "vendor/custFramework/hardware/modules/include/",
+    ],
+
+    static_libs: [
+    ],
+
+    shared_libs: [
+        "libbpf_android",
+        "libnetdbpf",
+        "libnetdutils",
+        "libmemtrack",
+        "libandroidfw",
+        "libappfuse",
+        "libbase",
+        "libcrypto",
+        "libnativehelper",
+        "liblog",
+        "libcutils",
+        "libdebuggerd_client",
+        "libutils",
+        "libbinder",
+        "libui",
+        "libgraphicsenv",
+        "libgui",
+        "libsensor",
+        "libinput",
+        "libcamera_client",
+        "libcamera_metadata",
+        "libsqlite",
+        "libEGL",
+        "libGLESv1_CM",
+        "libGLESv2",
+        "libGLESv3",
+        "libvulkan",
+        "libziparchive",
+        "libETC1",
+        "libhardware",
+        "libhardware_legacy",
+        "libselinux",
+        "libandroidicu",
+        "libmedia",
+        "libmedia_helper",
+        "libmediametrics",
+        "libmeminfo",
+        "libaudioclient",
+        "libaudiopolicy",
+        "libjpeg",
+        "libusbhost",
+        "libharfbuzz_ng",
+        "libz",
+        "libpdfium",
+        "libimg_utils",
+        "libnetd_client",
+        "libsoundtrigger",
+        "libminikin",
+        "libprocessgroup",
+        "libnativebridge_lazy",
+        "libnativeloader_lazy",
+        "libmemunreachable",
+        "libhidlbase",
+        "libhidltransport",
+        "libhwbinder",
+        "libvintf",
+        "libnativewindow",
+        "libhwui",
+        "libdl",
+        "libdl_android",
+        "libstatslog",
+        "server_configurable_flags",
+    ],
+
+    local_include_dirs: [],
+    export_include_dirs: [
+        ".",
+    ],
+}

@@ -19,8 +19,6 @@ namespace android {
       
 class NativeService : public BBinder  
 {  
-    mutable Mutex mLock;  
-    int32_t mNextConnId;  
 public:
     
     

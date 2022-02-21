@@ -10,7 +10,7 @@
 #define LOG_TAG "libcust_jni"
 
 #include "jni.h"
-#include "JNIHelp.h"
+#include <nativehelper/JNIHelp.h>
 
 #include <cutils/log.h>
 #include <assert.h>

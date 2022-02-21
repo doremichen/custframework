@@ -7,7 +7,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := com.custframework.server.xml
 
-LOCAL_MODULE_TAGS := optinal
+LOCAL_MODULE_TAGS := optional
 
 LOCAL_MODULE_CLASS := ETC
 

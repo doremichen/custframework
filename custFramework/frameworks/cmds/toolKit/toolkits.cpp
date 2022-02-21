@@ -17,8 +17,6 @@
 #include <cutils/log.h>
 #include <sys/reboot.h>
 
-#include <utils/TextOutput.h>
-
 #include <getopt.h>
 #include <pthread.h>
 #include <stdlib.h>
@@ -43,6 +41,8 @@
 #define LOGW(...) __android_log_print( ANDROID_LOG_WARN,  LOG_TAG, __VA_ARGS__ )
 #define LOGE(...) __android_log_print( ANDROID_LOG_ERROR,  LOG_TAG, __VA_ARGS__ )
 
+
+extern "C" int __reboot(int, int, int, void*);
 
 //#define DEBUG    //for log
 
@@ -98,8 +98,10 @@ void executeMonkey() {
     }
 }
 
+
 void rebootDevice(int mode)
 {
+#if ANDROID4_2
     int retval;
  
     if ((retval = __reboot(LINUX_REBOOT_MAGIC1, LINUX_REBOOT_MAGIC2,
@@ -107,12 +109,15 @@ void rebootDevice(int mode)
         LOGE("Try to shutdown the machine failed!");
         exit(EXIT_FAILURE);
     }
-
+#else
+    reboot(mode);
+#endif
 }
+
 
 static void hello()
 {
-    aout << "Hello world!!! \n";
+    printf("Hello world!!! \n");
 }
 
 static void shutDownDevice()
@@ -159,7 +164,7 @@ int main(int argc, char* const argv[])
             wantsUsage = true;
             break;
         default:
-            aerr << "atkservice: Unknown option -" << ic << "\n";
+            printf("atkservice: Unknown option - %d\n", ic);
             wantsUsage = true;
             result = 10;
             break;
@@ -182,7 +187,7 @@ int main(int argc, char* const argv[])
         }
         
         if (!validArg) {
-            aerr << "atkservice: Unknown command " << argv[optind] << "\n";
+            printf("atkservice: Unknown command: %s\n", argv[optind]);
             wantsUsage = true;
             result = 10;
         }
@@ -190,17 +195,16 @@ int main(int argc, char* const argv[])
     }
     
     if (wantsUsage) {
-        aout << "Usage: toolkits [name] [opt]\n"
-                "       name: h help infomation\n"
-                "             test show hello world\n"
-                "             autopressP auto press power button\n"
-                "             pressP press power button\n"
-                "             runM run Monkey\n"
-                "             shutdown shutdown device\n"
-                "             reboot reboot device\n"
-                "       opt: h\n"
-                "Example:\n"
-                ;
+        printf("Usage: toolkits [name] [opt]\n");
+        printf("       name: h help infomation\n");
+        printf("             test show hello world\n");
+        printf("             autopressP auto press power button\n");
+        printf("             pressP press power button\n");
+        printf("             runM run Monkey\n");
+        printf("             shutdown shutdown device\n");
+        printf("             reboot reboot device\n");
+        printf("       opt: h\n");
+        printf("Example:toolkits test\n");
                 
         return result;
     }

@@ -10,14 +10,13 @@
 #define LOG_TAG "cust_device_hal"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <linux/ioctl.h>
-#include <linux/delay.h>
 
 #include <hardware/hardware.h>
 #include <custhal/custhal.h>
@@ -71,14 +70,14 @@ static int sendcmd(int brightness)
 }
 
 
-static int cust_effects_device_on(struct cust_device_t *dev)
+static int cust_effects_device_on(struct cust_device_t *dev __unused)
 {
     ALOGV("[%s] enter\n", __FUNCTION__);
     int ret = sendcmd(220);
     return ret;
 }
 
-static int cust_effects_device_off(struct cust_device_t *dev)
+static int cust_effects_device_off(struct cust_device_t *dev __unused)
 {
     ALOGV("[%s] enter\n", __FUNCTION__);
     int ret = sendcmd(20);
@@ -89,7 +88,7 @@ static int cust_effects_device_off(struct cust_device_t *dev)
  * Initial cust hal device content
  */
 static int cust_device_open(const struct hw_module_t* module,
-              const char* name,
+              const char* name __unused,
               struct hw_device_t** device)
 {
     ALOGV("[%s] enter\n", __FUNCTION__);
@@ -114,7 +113,7 @@ static int cust_device_open(const struct hw_module_t* module,
 
 
 static struct hw_module_methods_t s_module_methods = {
-    open: cust_device_open
+    .open = cust_device_open
 };
 
 /**

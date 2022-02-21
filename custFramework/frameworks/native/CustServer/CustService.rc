@@ -1,0 +1,3 @@
+service CustManager /system/bin/CustManager
+    user root
+    group root

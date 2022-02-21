@@ -13,8 +13,8 @@ PRODUCT_PACKAGES += custframework \\
                     libcust_jni \\  
                     custhal.default \\  
                     TestCustFramework  
-4. Add as the fllowing in root\system\core\rootdir\init.rc  
-service CustManager /system/bin/CustManager  
-    user root  
-    group root  
+~4. Add as the fllowing in root\system\core\rootdir\init.rc~  
+~service CustManager /system/bin/CustManager~  
+~user root~ 
+~group root~ 
 

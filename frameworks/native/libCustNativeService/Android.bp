@@ -40,6 +40,8 @@ cc_library_shared {
         "liblog",
         "libcutils",
         "libutils",
+        "libbase",
+        "libutils",
         "libbinder",
         "libhardware",
     ],

@@ -16,7 +16,7 @@ cc_library_shared {
     include_dirs: [
         // we need to access the private Bionic header
         // <bionic_tls.h> in com_google_android_gles_jni_GLImpl.cpp
-        "vendor/custFramework/hardware/modules/include/",
+        "device/custframework/hardware/modules/include/",
     ],
 
     static_libs: [

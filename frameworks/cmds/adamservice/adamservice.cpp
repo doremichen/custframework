@@ -17,8 +17,6 @@
 #include <cutils/log.h>
 
 #define LOG_PRODTAG "Result"
- 
-#include <utils/TextOutput.h>
 
 #include <getopt.h>
 #include <pthread.h>
@@ -120,12 +118,13 @@ void LoadSound(const char* file)
    // create new listener and give it to MediaPlayer
     sp<MPListener> listener = new MPListener();
     mediaplayer->setListener(listener);
+#if 0 // Not found in android 12
 #if TEST		
    mediastatus = mediaplayer->setDataSource(pSoundFileName, NULL);
 #else   
    mediastatus = mediaplayer->setDataSource(file, NULL);
 #endif   
-
+#endif
 #ifdef DEBUG     
    printf("[%s]: setDataSource completed pSoundFileName: %s\n", __func__, file);
 #endif
@@ -212,7 +211,7 @@ int main(int argc, char* const argv[])
             wantsUsage = true;
             break;
         default:
-            aerr << "atkservice: Unknown option -" << ic << "\n";
+            printf("atkservice: Unknown option - %c\n", ic);
             wantsUsage = true;
             result = 10;
             break;
@@ -225,7 +224,7 @@ int main(int argc, char* const argv[])
     else if (!wantsUsage) {
         if (strcmp(argv[optind], "test") == 0) {
          
-         aout << "test \n";
+         printf("test \n");
             
         }
         else if (strcmp(argv[optind], "mediaplayer") == 0) {
@@ -317,7 +316,7 @@ int main(int argc, char* const argv[])
         else if (strcmp(argv[optind], "device") == 0) {
             optind++;
             if (strcmp(argv[optind], "autopressPK") == 0) {
-                aout << "auto press power key !!!\n";
+                printf("auto press power key !!!\n");
                 optind++;
               if (optind < argc) {
                 long times = strtol(argv[optind], NULL, 0);
@@ -335,7 +334,7 @@ int main(int argc, char* const argv[])
 
               }
               else {
-                aerr << "atkservice: please input loop counter!!!" << endl;
+                printf("atkservice: please input loop counter!!!\n");
                 wantsUsage = true; 
                 result = 10;           
               }
@@ -343,25 +342,25 @@ int main(int argc, char* const argv[])
             
         }
         else {
-            aerr << "adamservice: Unknown command " << argv[optind] << "\n";
+            printf("adamservice: Unknown command: %s \n", argv[optind]);
             wantsUsage = true;
             result = 10;
         }
     }
     
     if (wantsUsage) {
-        aout << "Usage: adamservice [name] [opt]\n"
-                "       name: h\n"
-                "             mediaplayer\n"
-                "             usbcdc\n"
-                "             device\n"
-                "       opt: h\n"
-                "            play: mediaplayer play function.\n"
-                "            readsync: test usbcdc read sync performance.\n"
-                "            readasync: test usbcdc read async performance.\n"
-                "            autopressPK: monitor auto press power key.\n"
-                "Example:\n"
-                "       adamservice device autopressPK 200: suto press power key 200 times.\n";
+        printf("Usage: adamservice [name] [opt]\n");
+        printf("       name: h\n");
+        printf("             mediaplayer\n");
+        printf("             usbcdc\n");
+        printf("             device\n");
+        printf("       opt: h\n");
+        printf("            play: mediaplayer play function.\n");
+        printf("            readsync: test usbcdc read sync performance.\n");
+        printf("            readasync: test usbcdc read async performance.\n");
+        printf("            autopressPK: monitor auto press power key.\n");
+        printf("Example:\n");
+        printf("       adamservice device autopressPK 200: suto press power key 200 times.\n");
                 
         return result;
     }

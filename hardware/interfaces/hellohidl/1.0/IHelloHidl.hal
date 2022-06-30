@@ -1,0 +1,9 @@
+/*
+ * IHelloHidl.hal
+ */
+ package device.cust.hardware.hellohidl@1.0;
+ 
+interface IHelloHidl {
+
+      foo(uint8_t value);
+};

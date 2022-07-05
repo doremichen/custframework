@@ -6,7 +6,7 @@
 ## Build sop
 1. Get ASOP  
 2. Put this code in the android root\vendor  
-3. Add as the followng in root\build\target\product\common.mk\cmomonlmk  
+3. Add as the followng in root\build\target\product\base_system.mk  
 PRODUCT_PACKAGES += custframework \\  
                     com.custframework.server.xml \\  
                     CustManager \\  

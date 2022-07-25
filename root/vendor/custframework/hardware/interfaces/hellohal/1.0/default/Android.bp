@@ -1,0 +1,26 @@
+// FIXME: your file license if you have one
+
+cc_binary {
+    name: "custFramework.hardware.hellohal@1.0-service",
+    defaults: ["hidl_defaults"],
+    relative_install_path: "hw",
+    vendor: true,
+    proprietary: true,
+    init_rc: ["custFramework.hardware.hellohal@1.0-service.rc"],
+    srcs: ["service.cpp",
+            "HelloHal.cpp",
+          ],
+
+    shared_libs: [
+        "liblog",
+        "libcutils",
+        "libdl",
+        "libbase",
+        "libutils",
+        "libhardware",
+        "libhidlbase",
+        "libhidltransport",
+        "custFramework.hardware.hellohal@1.0",
+    ],
+
+}

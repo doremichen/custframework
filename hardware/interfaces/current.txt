@@ -1,1 +1,0 @@
-3565242cdb13a3452f9d3eb490cca4bf1b43c7b3799549a1a0bbaa216ffa706e device.cust.hardware.hellohidl@1.0::IHelloHidl

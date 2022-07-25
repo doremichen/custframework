@@ -1,0 +1,20 @@
+cc_binary {
+    name: "CustManager",
+    init_rc: ["custserver.rc"],
+    srcs: ["CustManager.cpp"],
+    include_dirs: [
+        "vendor/custFramework/frameworks/native/libCustNativeService",
+    ],
+    shared_libs: [
+        "liblog",
+        "libcutils",
+        "libutils",
+        "libbinder",
+        "libCustNativeService",
+    ],
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wextra",
+    ],
+}

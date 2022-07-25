@@ -1,0 +1,2 @@
+b32d99d85328a9855d40f3b26d749d4ff5bb265689fbc1c632069278b39f3bc1 custFramework.hardware.hellohal@1.0::types
+6aaaebd27808004ae569e686df1ea4186c9c79db0983a09370fa346c021e750e custFramework.hardware.hellohal@1.0::IHelloHal

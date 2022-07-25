@@ -1,0 +1,11 @@
+/*
+ * Hello hal interface
+ */
+ package custFramework.hardware.hellohal@1.0;
+ 
+ interface IHelloHal {
+    
+    foo(string name) generates (string result, HelloTest value);
+ 
+    bar(HelloTest value);
+ };

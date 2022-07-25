@@ -1,0 +1,6 @@
+
+##########################
+# medical
+#
+/(vendor|system|system/vendor)/bin/custsvr      u:object_r:hpservice_exec:s0
+

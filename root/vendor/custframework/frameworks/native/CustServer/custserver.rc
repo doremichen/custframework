@@ -1,0 +1,8 @@
+#
+# Trigger cust manager in the init process
+#
+
+service custsvr /system/bin/custsvr
+    class core
+    user root
+    group root

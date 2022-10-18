@@ -26,6 +26,6 @@ LOCAL_SHARED_LIBRARIES := \
 LOCAL_SRC_FILES := \
     NativeService.cpp \
     CustClient.cpp
-                   
+    
 LOCAL_MODULE := libCustNativeService
 include $(BUILD_SHARED_LIBRARY)

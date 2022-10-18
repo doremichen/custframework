@@ -67,7 +67,29 @@ namespace android {
         ALOGV("[%s] done\n", __FUNCTION__);
         return ret;
             
-    }        
+    }
+
+    /**
+     * on hal module interface
+     */
+    int NativeService::module_on()
+    {
+        ALOGV("[%s] enter\n", __FUNCTION__);
+        int ret = custDevice->cust_effects_on(custDevice);   // turn on led
+        ALOGV("[%s] done\n", __FUNCTION__);
+        return ret;
+    }
+    
+    /**
+     * off hal module interface
+     */
+    int NativeService::module_off()
+    {
+        ALOGV("[%s] enter\n", __FUNCTION__);
+        int ret = custDevice->cust_effects_off(custDevice);   // turn off led
+        ALOGV("[%s] done\n", __FUNCTION__);
+        return ret;
+    }
  
     /**
      * Recieve the request from binder driver
@@ -91,7 +113,7 @@ namespace android {
             case TURN_ON_EFFECT: {  
                 pid_t pid = data.readInt32();
                 ALOGV("[%s]: pid[%d]\n", __FUNCTION__, pid);                
-                int ret = custDevice->cust_effects_on(custDevice);   // turn on led
+                int ret = module_on();
                 reply->writeInt32(ret);  
                 return NO_ERROR;
             }
@@ -100,7 +122,7 @@ namespace android {
             case TURN_OFF_EFFECT: {  
                 pid_t pid = data.readInt32();  
                 ALOGV("[%s]: pid[%d]\n", __FUNCTION__, pid);
-                int ret = custDevice->cust_effects_off(custDevice);   // turn off led
+                int ret = module_off();
                 reply->writeInt32(ret);  
                 return NO_ERROR;
             }

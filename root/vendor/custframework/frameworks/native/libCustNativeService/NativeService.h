@@ -33,7 +33,9 @@ public:
     virtual ~NativeService();  
     virtual status_t onTransact(uint32_t, const Parcel&, Parcel*, uint32_t); 
     
-    int module_init(); 
+    int module_init();
+    int module_on(); 
+    int module_off(); 
 };
 
   

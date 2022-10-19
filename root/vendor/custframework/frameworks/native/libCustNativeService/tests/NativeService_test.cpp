@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-#include <HapticService.h>
+#include <NativeService.h>
 
 #include "gtest/gtest.h"
 
@@ -34,11 +34,11 @@ protected:
       }
 
 
-      HapticService *pService;      
+      NativeService *pService;      
       
 };
     
-int On(HapticService *service)
+int On(NativeService *service)
 {
    int ret = 0; 
     
@@ -49,7 +49,7 @@ int On(HapticService *service)
    return ret; 
 }
 
-int Off(HapticService *service)
+int Off(NativeService *service)
 {
     int ret = 0; 
     

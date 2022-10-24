@@ -1,34 +1,34 @@
 #
-# This makefile is for hapticservice_test
+# This makefile is for nativeservice_test
 #
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES:= \
-	NativeService_test.cpp
+    nativeservice_test.cpp
 
 LOCAL_C_INCLUDES := \
     vendor/custframework/frameworks/native/libCustNativeService \
-    bionic \
-    bionic/libstdc++/include \
-    external/gtest/include \
-    external/stlport/stlport \
+    external/gtest/include
 
 LOCAL_STATIC_LIBRARIES := \
-	libgtest \
-	libgtest_main \
+    libgtest \
+    libgtest_main \
 
 LOCAL_SHARED_LIBRARIES := \
-	libcutils \
-	libutils \
-	libCustNativeService \
-	libutils \
-    libstlport
+    libcutils \
+    libutils \
+    libCustNativeService \
+    libutils \
+    libbase
 
-LOCAL_MODULE:= nativeService_test
+LOCAL_MODULE:= native_service_test
 
 LOCAL_MODULE_TAGS := tests
 
 # LOCAL_MODULE_PATH := $(TARGET_OUT_DATA)/nativetest
+LOCAL_MULTILIB := both
+LOCAL_MODULE_STEM_32 := native_service_test
+LOCAL_MODULE_STEM_64 := native_service_test64
 
 include $(BUILD_EXECUTABLE)

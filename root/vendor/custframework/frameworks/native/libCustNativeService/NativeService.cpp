@@ -2,7 +2,7 @@
  * File: NativeService.cpp
  * Breif: Implement native Service 
  *
- * Name: Adam chen
+ * Name: 
  * Date: 
  */
 
@@ -68,26 +68,20 @@ namespace android {
         return ret;
             
     }
-
-    /**
-     * on hal module interface
-     */
+    
     int NativeService::module_on()
     {
         ALOGV("[%s] enter\n", __FUNCTION__);
-        int ret = custDevice->cust_effects_on(custDevice);   // turn on led
-        ALOGV("[%s] done\n", __FUNCTION__);
+        int ret = 0;  // Success
+        ret = custDevice->cust_effects_on(custDevice);   // turn on led
         return ret;
     }
     
-    /**
-     * off hal module interface
-     */
     int NativeService::module_off()
     {
         ALOGV("[%s] enter\n", __FUNCTION__);
-        int ret = custDevice->cust_effects_off(custDevice);   // turn off led
-        ALOGV("[%s] done\n", __FUNCTION__);
+        int ret = 0;  // Success
+        ret = custDevice->cust_effects_off(custDevice);   // turn off led
         return ret;
     }
  

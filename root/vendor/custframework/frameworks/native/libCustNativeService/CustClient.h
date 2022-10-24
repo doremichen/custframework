@@ -2,7 +2,7 @@
  * File: CustClient.h
  * Breif: Declare Client class
  *
- * Name: Adam chen
+ * Name: 
  * Date: 
  */
 

@@ -9,3 +9,7 @@ PRODUCT_PACKAGES += \
     custsvr \
     custframework \
     TestCustFramework \
+    
+# for native test case
+PRODUCT_PACKAGES += \
+    native_service_test

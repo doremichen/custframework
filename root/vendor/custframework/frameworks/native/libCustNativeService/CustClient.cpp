@@ -2,7 +2,7 @@
  * File: CustClient.cpp
  * Breif: Implement Client class
  *
- * Name: Adam chen
+ * Name: 
  * Date: 
  */
 

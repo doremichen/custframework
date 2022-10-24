@@ -7,14 +7,13 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE_TAGS := optional
 
-LOCAL_ROOT := custFramework
 
 # our own branch needs these headers
 LOCAL_C_INCLUDES += \
-    $(TOP)/vendor/$(LOCAL_ROOT)/hardware/modules/include/
+    $(LOCAL_PATH)/../../../hardware/modules/include/
 
 LOCAL_PRELINK_MODULE := false
-LOCAL_MODULE_RELATIVE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)
+
 LOCAL_LDLIBS := -llog
 LOCAL_SHARED_LIBRARIES := \
     liblog \
@@ -26,6 +25,7 @@ LOCAL_SHARED_LIBRARIES := \
 LOCAL_SRC_FILES := \
     NativeService.cpp \
     CustClient.cpp
-    
+                   
 LOCAL_MODULE := libCustNativeService
 include $(BUILD_SHARED_LIBRARY)
+include $(call first-makefiles-under,$(LOCAL_PATH))

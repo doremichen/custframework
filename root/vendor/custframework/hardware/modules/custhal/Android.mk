@@ -14,7 +14,7 @@ LOCAL_C_INCLUDES += \
     $(TOP)/vendor/$(LOCAL_ROOT)/hardware/modules/include/
 
 LOCAL_PRELINK_MODULE := false
-LOCAL_MODULE_RELATIVE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
+LOCAL_MODULE_RELATIVE_PATH := hw
 LOCAL_SHARED_LIBRARIES := liblog libcutils
 LOCAL_SRC_FILES := custhal.c
 LOCAL_MODULE:= custhal.default

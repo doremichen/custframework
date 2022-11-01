@@ -8,13 +8,9 @@
 
 package com.cust.server;
 
-import android.content.Context;
 import android.os.Binder;
-import android.os.ParcelFileDescriptor;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
-import android.os.IBinder;
-import android.util.Config;
 
 import custdroid.hardware.ISpecialEffectService;
 import custdroid.hardware.IServiceCallBack;

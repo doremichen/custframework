@@ -1,7 +1,7 @@
 //*******************************************
 // FILE NAME:   natibeservice_test.cpp
 // VERSION:     $Revision: $
-// DESCRIPTION: Native Service
+// DESCRIPTION: native Service test
 // 
 //
 //*****************************************************************************

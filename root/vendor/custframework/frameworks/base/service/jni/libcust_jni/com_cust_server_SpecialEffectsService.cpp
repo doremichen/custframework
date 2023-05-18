@@ -52,6 +52,14 @@ static struct {
     jmethodID nativeCallBack;
 } gJavaClassInfo;
 
+const char* getCharFromString(JNIEnv* env, jstring string){
+    if(string == nullptr)
+        return nullptr;
+
+    return  env->GetStringUTFChars(string ,0);
+}
+
+
 /**
  * Used to notify java layer
  */
@@ -75,6 +83,11 @@ notifyJavaLayer(const char* str, jboolean isMainThread)
     ALOGI("msgStr: %s\n", getCharFromString(env, msgStr));
      
      ALOGV("[%s] invoke java method\n", __FUNCTION__);
+    if (gObj == nullptr) {
+        ALOGE("[%s]: gObj is null object!!!\n", __FUNCTION__);
+        return;
+    }
+    
      // invoke java method
     env -> CallVoidMethod(gObj, gJavaClassInfo.nativeCallBack, msgStr);
     
@@ -92,7 +105,7 @@ notifyJavaLayer(const char* str, jboolean isMainThread)
  * The method below are not thread-safe and not intended to be 
  */
 static jint
-special_effects_init(JNIEnv *env, jclass clazz)
+special_effects_init(JNIEnv *env, jobject thiz)
 {
     ALOGV("[%s] enter\n", __FUNCTION__);
     jint ret;
@@ -101,13 +114,13 @@ special_effects_init(JNIEnv *env, jclass clazz)
     gObj  = env->NewGlobalRef(thiz);
     
     if(pClient == nullptr) {
-        notifyJavaLayer(env, "pClient is not initial!!!", JNI_TRUE);
+        notifyJavaLayer("pClient is not initial!!!", JNI_TRUE);
         return -1;
     }    
     
     ret = pClient->init_module();
     
-    notifyJavaLayer(env, "initialize Successful...", JNI_TRUE);
+    notifyJavaLayer("initialize Successful...", JNI_TRUE);
     
     // release reference object
     env->DeleteGlobalRef(gObj);
@@ -116,44 +129,44 @@ special_effects_init(JNIEnv *env, jclass clazz)
 }
 
 static jint
-special_effects_on(JNIEnv *env, jclass clazz)
+special_effects_on(JNIEnv *env, jobject thiz)
 {
     ALOGV("[%s] enter\n", __FUNCTION__);
     jint ret;
     
     if(pClient == nullptr) {
-        notifyJavaLayer(env, "pClient is not initial!!!", JNI_TRUE);
+        notifyJavaLayer("pClient is not initial!!!", JNI_TRUE);
         return -1;
     }
     
     ret = pClient->turn_on_lcd(); 
     
-    notifyJavaLayer(env, "turn on screen light...", JNI_TRUE);
+    notifyJavaLayer("turn on screen light...", JNI_TRUE);
     
     return ret;
 }
 
 static jint
-special_effects_off(JNIEnv *env, jclass clazz)
+special_effects_off(JNIEnv *env, jobject thiz)
 {
     ALOGV("[%s] enter\n", __FUNCTION__);
     jint ret;
     
     if(pClient == nullptr) {
-        notifyJavaLayer(env, "pClient is not initial!!!", JNI_TRUE);
+        notifyJavaLayer("pClient is not initial!!!", JNI_TRUE);
         return -1;
     }
     
     
     ret = pClient->turn_off_lcd(); 
     
-    notifyJavaLayer(env, "turn off screen light...", JNI_TRUE);
+    notifyJavaLayer("turn off screen light...", JNI_TRUE);
     
     return ret;
 }
 
 static void
-special_effects_release(JNIEnv *env, jclass clazz)
+special_effects_release(JNIEnv *env, jobject thiz)
 {
     ALOGV("[%s] enter\n", __FUNCTION__);
     if(pClient != NULL) {
@@ -161,7 +174,7 @@ special_effects_release(JNIEnv *env, jclass clazz)
         pClient = NULL;  
     }
     
-    notifyJavaLayer(env, "release Successful...", JNI_TRUE);
+    notifyJavaLayer("release Successful...", JNI_TRUE);
 }
 
 static JNINativeMethod gMethods[] = {

@@ -39,6 +39,10 @@ static const char* const kClassName =
         
 static CustClient* pClient = NULL;
 
+JavaVM *gJvm = nullptr;  //Get gJvm from jni main thread use env->GetJavaVM(&gJvm);
+jobject gObj = nullptr;  //Where the java function exist (some Activity).
+
+
 static struct {
     /**
         // for the field of java layer
@@ -52,22 +56,35 @@ static struct {
  * Used to notify java layer
  */
  static void
- notifyJavaLayer(JNIEnv *env, const char* str) {
-     ALOGV("[%s] enter\n", __FUNCTION__);
-     jclass clazz;
+notifyJavaLayer(const char* str, jboolean isMainThread) 
+{
+    ALOGV("[%s] enter: %s\n", __FUNCTION__, str);
+    //Get env in thread function and attach the env
+    ALOGI("Get env in thread function and attach the env");
+    JNIEnv *env;
+    if(gJvm->AttachCurrentThread(&env, NULL) != JNI_OK) {
+        ALOGD("%s: AttachCurrentThread() failed", __FUNCTION__);
+    }
+    
      jstring msgStr = env->NewStringUTF(str);
      if (!msgStr) {
             ALOGE("[%s]: Out of memory!!!\n", __FUNCTION__);
             return; // out of memory error
      }
      
-     FIND_CLASS(clazz, "com/cust/server/SpecialEffectsService");
-     
-     jobject thiz = env -> AllocObject(clazz);
+    ALOGI("msgStr: %s\n", getCharFromString(env, msgStr));
      
      ALOGV("[%s] invoke java method\n", __FUNCTION__);
      // invoke java method
-     env -> CallVoidMethod(thiz, gJavaClassInfo.nativeCallBack, msgStr);
+    env -> CallVoidMethod(gObj, gJavaClassInfo.nativeCallBack, msgStr);
+    
+    //Detach thread and release related resource
+    ALOGI("Detach thread and release related resource if needed");
+    if (isMainThread == JNI_FALSE) {
+        if(gJvm->DetachCurrentThread() != JNI_OK) {
+            ALOGD("%s: DetachCurrentThread() failed", __FUNCTION__);
+        }
+    }
  }
 
 
@@ -80,13 +97,20 @@ special_effects_init(JNIEnv *env, jclass clazz)
     ALOGV("[%s] enter\n", __FUNCTION__);
     jint ret;
     
-    if(pClient == NULL) {
-        pClient = new CustClient;
+    // for callback java layer
+    gObj  = env->NewGlobalRef(thiz);
+    
+    if(pClient == nullptr) {
+        notifyJavaLayer(env, "pClient is not initial!!!", JNI_TRUE);
+        return -1;
     }    
     
     ret = pClient->init_module();
     
-    notifyJavaLayer(env, "initialize Successful...");
+    notifyJavaLayer(env, "initialize Successful...", JNI_TRUE);
+    
+    // release reference object
+    env->DeleteGlobalRef(gObj);
     
     return ret;
 }
@@ -97,9 +121,14 @@ special_effects_on(JNIEnv *env, jclass clazz)
     ALOGV("[%s] enter\n", __FUNCTION__);
     jint ret;
     
+    if(pClient == nullptr) {
+        notifyJavaLayer(env, "pClient is not initial!!!", JNI_TRUE);
+        return -1;
+    }
+    
     ret = pClient->turn_on_lcd(); 
     
-    notifyJavaLayer(env, "turn on screen light...");
+    notifyJavaLayer(env, "turn on screen light...", JNI_TRUE);
     
     return ret;
 }
@@ -110,9 +139,15 @@ special_effects_off(JNIEnv *env, jclass clazz)
     ALOGV("[%s] enter\n", __FUNCTION__);
     jint ret;
     
+    if(pClient == nullptr) {
+        notifyJavaLayer(env, "pClient is not initial!!!", JNI_TRUE);
+        return -1;
+    }
+    
+    
     ret = pClient->turn_off_lcd(); 
     
-    notifyJavaLayer(env, "turn off screen light...");
+    notifyJavaLayer(env, "turn off screen light...", JNI_TRUE);
     
     return ret;
 }
@@ -126,7 +161,7 @@ special_effects_release(JNIEnv *env, jclass clazz)
         pClient = NULL;  
     }
     
-    notifyJavaLayer(env, "release Successful...");
+    notifyJavaLayer(env, "release Successful...", JNI_TRUE);
 }
 
 static JNINativeMethod gMethods[] = {
@@ -176,6 +211,10 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved)
     ALOGV("[%s] enter\n", __FUNCTION__);
     JNIEnv* env = NULL;
     jint result = -1;
+
+    gJvm = vm;
+    
+    pClient = new CustClient;
 
     if (vm->GetEnv((void**) &env, JNI_VERSION_1_4) != JNI_OK) {
         ALOGE("[%s]: ERROR: GetEnv failed\n", __FUNCTION__);

@@ -406,7 +406,7 @@ sendCommand(JNIEnv *env, jclass clazz, jbyteArray datas)
 static JNINativeMethod gMethods[] = {
     {"_openSerialPort", "(Ljava/lang/String;II)V", reinterpret_cast<void*>(openSerialPort) },
     {"_closeSerialPort", "()V", reinterpret_cast<void*>(closeSerialPort)},
-    {"_sendCommand", "(I[B)V", reinterpret_cast<void*>(sendCommand)}
+    {"_sendCommand", "([B)V", reinterpret_cast<void*>(sendCommand)}
 };
 
 

@@ -155,7 +155,7 @@ int isready(int fd)
     
     
     if( readState == 0) {
-        ALOGE("[%s]: No datas from devices.\n", __FUNCTION__);
+        ALOGE("[%s]: No data from devices.\n", __FUNCTION__);
     }        
     else {    
         ALOGE("[%s]: Fail to select in readline. error: %s\n", __FUNCTION__, strerror(errno));  
@@ -227,7 +227,7 @@ serialPortSession(void* arg) {
     while (gRunning == JNI_TRUE) {
         ALOGV("Hi!!!!");
         // clear buf
-        //Set the commands datas to zero
+        //Set the commands data to zero
         memset(gRead_buffer, 0x00, sizeof(gRead_buffer));
         
 #ifdef TEST
@@ -245,7 +245,7 @@ serialPortSession(void* arg) {
             
             // put string in native callback
             if(readCount > 0) {                    
-                ALOGV("[%s]: COMM COM port have datas<%d>: %x\n", __FUNCTION__, readCount, *gRead_buffer);
+                ALOGV("[%s]: COMM COM port have data<%d>: %x\n", __FUNCTION__, readCount, *gRead_buffer);
                 notifyJavaLayer(gRead_buffer, JNI_FALSE);
             }
         }
@@ -330,7 +330,7 @@ openSerialPort(JNIEnv *env, jobject thiz, jstring path, jint baudrate, jint flag
     cfmakeraw(&cfg);
 //    cfg.c_iflag = IGNBRK;
 //    cfg.c_oflag = 0;
-//    cfg.c_cflag |= (CREAD | CLOCAL| CS8); //datas Bit: 8 bits
+//    cfg.c_cflag |= (CREAD | CLOCAL| CS8); //data Bit: 8 bits
 //    cfg.c_cflag &= ~PARENB; //Parity: None
 //    cfg.c_cflag &= ~CSTOPB; //Stop Bits: 1
     cfsetispeed(&cfg, speed);
@@ -351,19 +351,22 @@ openSerialPort(JNIEnv *env, jobject thiz, jstring path, jint baudrate, jint flag
 }
 
 static void
-closeSerialPort(JNIEnv *env, jobject thiz) {
+closeSerialPort(JNIEnv *env, jobject thiz) 
+{
     ALOGV("[%s] enter\n", __FUNCTION__);
     // stop session
     gRunning = JNI_FALSE;
     if (gFd != -1) {
         close(gFd);
     }
+    // release globle reference
+    env->DeleteGlobalRef(gObj);
+    
     ALOGV("[%s] exit\n", __FUNCTION__);
 }
 
-
 static void
-sendCommand(JNIEnv *env, jclass clazz, jbyteArray datas)
+send(JNIEnv *env, jobject thiz, jbyteArray data)
 {
     ALOGV("[%s] enter\n", __FUNCTION__);
     
@@ -372,12 +375,12 @@ sendCommand(JNIEnv *env, jclass clazz, jbyteArray datas)
         return;
     }
     
-    int bytes_size = env->GetArrayLength(datas);
-    jbyte* commands = env->GetByteArrayElements(datas, 0);
+    int bytes_size = env->GetArrayLength(data);
+    jbyte* commands = env->GetByteArrayElements(data, 0);
     // to char*
     unsigned char* write_buffer = reinterpret_cast<unsigned char*>(commands);
     
-    // write datas to serial port
+    // write data to serial port
     int number_of_write = 0;
     
     do {
@@ -393,20 +396,28 @@ sendCommand(JNIEnv *env, jclass clazz, jbyteArray datas)
         
         // remaining length
         bytes_size -= number_of_write;
-    } while(bytes_size);
+    } while(bytes_size > 0);
     
     
     // release resource
-    env->ReleaseByteArrayElements(datas, commands, JNI_ABORT);
+    env->ReleaseByteArrayElements(data, commands, 0);
     
     ALOGV("[%s] exit\n", __FUNCTION__);
 }
 
+static void
+foo(JNIEnv *env, jobject thiz)
+{
+    ALOGV("[%s] enter\n", __FUNCTION__);
+    
+    ALOGV("[%s] exit\n", __FUNCTION__);
+}
 
 static JNINativeMethod gMethods[] = {
-    {"_openSerialPort", "(Ljava/lang/String;II)V", reinterpret_cast<void*>(openSerialPort) },
-    {"_closeSerialPort", "()V", reinterpret_cast<void*>(closeSerialPort)},
-    {"_sendCommand", "([B)V", reinterpret_cast<void*>(sendCommand)}
+    {"native_openSerialPort", "(Ljava/lang/String;II)V", (void*) openSerialPort},
+    {"native_closeSerialPort", "()V", (void*) closeSerialPort},
+    {"native_send", "([B)V", (void*) send},
+    {"native_foo", "()V", (void*) foo},
 };
 
 

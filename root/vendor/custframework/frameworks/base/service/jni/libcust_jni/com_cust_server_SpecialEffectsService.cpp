@@ -2,7 +2,7 @@
  * File: com_cust_server_SpecialEffectsService.cpp
  * Breif: This is jni core implementation
  *
- * Name: Adam chen
+ * Name: 
  * Date: 
  */
 
@@ -63,7 +63,7 @@ const char* getCharFromString(JNIEnv* env, jstring string){
 /**
  * Used to notify java layer
  */
- static void
+static void
 notifyJavaLayer(const char* str, jboolean isMainThread) 
 {
     ALOGV("[%s] enter: %s\n", __FUNCTION__, str);
@@ -74,21 +74,21 @@ notifyJavaLayer(const char* str, jboolean isMainThread)
         ALOGD("%s: AttachCurrentThread() failed", __FUNCTION__);
     }
     
-     jstring msgStr = env->NewStringUTF(str);
-     if (!msgStr) {
-            ALOGE("[%s]: Out of memory!!!\n", __FUNCTION__);
-            return; // out of memory error
-     }
-     
+    jstring msgStr = env->NewStringUTF(str);
+    if (!msgStr) {
+        ALOGE("[%s]: Out of memory!!!\n", __FUNCTION__);
+        return; // out of memory error
+    }
+    
     ALOGI("msgStr: %s\n", getCharFromString(env, msgStr));
-     
-     ALOGV("[%s] invoke java method\n", __FUNCTION__);
+
+    ALOGV("[%s] invoke java method \n", __FUNCTION__);
     if (gObj == nullptr) {
         ALOGE("[%s]: gObj is null object!!!\n", __FUNCTION__);
         return;
     }
     
-     // invoke java method
+    // invoke java method
     env -> CallVoidMethod(gObj, gJavaClassInfo.nativeCallBack, msgStr);
     
     //Detach thread and release related resource
@@ -98,7 +98,7 @@ notifyJavaLayer(const char* str, jboolean isMainThread)
             ALOGD("%s: DetachCurrentThread() failed", __FUNCTION__);
         }
     }
- }
+}
 
 
 /*
@@ -116,7 +116,7 @@ special_effects_init(JNIEnv *env, jobject thiz)
     if(pClient == nullptr) {
         notifyJavaLayer("pClient is not initial!!!", JNI_TRUE);
         return -1;
-    }    
+    }
     
     ret = pClient->init_module();
     

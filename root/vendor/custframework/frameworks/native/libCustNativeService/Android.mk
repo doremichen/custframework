@@ -28,4 +28,5 @@ LOCAL_SRC_FILES := \
                    
 LOCAL_MODULE := libCustNativeService
 include $(BUILD_SHARED_LIBRARY)
+
 include $(call first-makefiles-under,$(LOCAL_PATH))

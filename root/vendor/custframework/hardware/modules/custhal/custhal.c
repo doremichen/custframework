@@ -2,7 +2,7 @@
  * File: custhal.c
  * Breif: This is hal module.
  *
- * Name: Adam chen
+ * Name: 
  * Date: 
  */
 

@@ -1,0 +1,13 @@
+// Copyright xxx
+// Build dependecies
+java_import_host {
+    name: "jdt",
+    jars: ["lib/dicomtoolkit.jar"],
+    installable: true,
+}
+
+java_import {
+    name: "jdt-med",
+    jars: ["lib/dicomtoolkit.jar"],
+}
+

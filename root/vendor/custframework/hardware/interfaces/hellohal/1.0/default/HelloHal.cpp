@@ -4,13 +4,14 @@
 
 #include "HelloHal.h"
 
-namespace custFramework {
+namespace altek {
+namespace medical {
 namespace hardware {
 namespace hellohal {
 namespace V1_0 {
 namespace implementation {
     
-// Methods from ::custFramework::hardware::hellohal::V1_0::IHelloHal follow.
+// Methods from ::altek::medical::hardware::hellohal::V1_0::IHelloHal follow.
 Return<void> HelloHal::foo(const hidl_string& name, foo_cb _hidl_cb) {
     LOG(INFO) <<__FUNCTION__<< "function is called!!!";
     LOG(INFO) << "name: " << name.c_str() << "";
@@ -18,7 +19,7 @@ Return<void> HelloHal::foo(const hidl_string& name, foo_cb _hidl_cb) {
     return Void();
 }
 
-Return<void> HelloHal::bar(::custFramework::hardware::hellohal::V1_0::HelloTest value) {
+Return<void> HelloHal::bar(::altek::medical::hardware::hellohal::V1_0::HelloTest value) {
     LOG(INFO) <<__FUNCTION__<< "function is called!!!";
     uint8_t v = static_cast<uint8_t>(value);
     LOG(INFO) << "value: " << v << "";
@@ -36,4 +37,5 @@ Return<void> HelloHal::bar(::custFramework::hardware::hellohal::V1_0::HelloTest 
 }  // namespace V1_0
 }  // namespace hellohal
 }  // namespace hardware
-}  // namespace custFramework
+}  // namespace medical
+}  // namespace altek

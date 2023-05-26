@@ -47,3 +47,6 @@
 # ************************************************
 # NEWER CLEAN STEPS MUST BE AT THE END OF THE LIST
 # ************************************************
+$(call add-clean-step, rm -rf $(PRODUCT_OUT)/system/bin/hpservice $(PRODUCT_OUT)/symbols/system/bin/hpservice)
+$(call add-clean-step, rm -rf $(PRODUCT_OUT)/system/lib/libCustNativeService.so $(PRODUCT_OUT)/system/lib64/libCustNativeService.so)
+$(call add-clean-step, rm -rf $(PRODUCT_OUT)/symbols/system/lib/libCustNativeService.so $(PRODUCT_OUT)/symbols/system/lib64/libCustNativeService.so)

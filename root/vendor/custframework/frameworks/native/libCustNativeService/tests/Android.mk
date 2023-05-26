@@ -1,6 +1,7 @@
 #
 # This makefile is for nativeservice_test
 #
+# local_target_dir := $(TARGET_OUT_DATA)/local/tmp
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
@@ -8,7 +9,7 @@ LOCAL_SRC_FILES:= \
     nativeservice_test.cpp
 
 LOCAL_C_INCLUDES := \
-    vendor/custframework/frameworks/native/libCustNativeService \
+    vendor/medical/frameworks/native/libCustNativeService \
     external/gtest/include
 
 LOCAL_STATIC_LIBRARIES := \
@@ -26,7 +27,8 @@ LOCAL_MODULE:= native_service_test
 
 LOCAL_MODULE_TAGS := tests
 
-# LOCAL_MODULE_PATH := $(TARGET_OUT_DATA)/nativetest
+
+# LOCAL_MODULE_PATH := $(local_target_dir)
 LOCAL_MULTILIB := both
 LOCAL_MODULE_STEM_32 := native_service_test
 LOCAL_MODULE_STEM_64 := native_service_test64

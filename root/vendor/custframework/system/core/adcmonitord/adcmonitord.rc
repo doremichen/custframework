@@ -1,0 +1,8 @@
+#
+# Trigger adcmonitord service in the init process
+#
+
+service adcmonitord /system/bin/adcmonitord
+    class core
+    user root
+    group root

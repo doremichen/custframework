@@ -2,11 +2,12 @@
 
 #pragma once
 
-#include <custFramework/hardware/hellohal/1.0/IHelloHal.h>
+#include <altek/medical/hardware/hellohal/1.0/IHelloHal.h>
 #include <hidl/MQDescriptor.h>
 #include <hidl/Status.h>
 
-namespace custFramework {
+namespace altek {
+namespace medical {
 namespace hardware {
 namespace hellohal {
 namespace V1_0 {
@@ -21,9 +22,9 @@ using ::android::hardware::Void;
 using ::android::sp;
 
 struct HelloHal : public IHelloHal {
-    // Methods from ::custFramework::hardware::hellohal::V1_0::IHelloHal follow.
+    // Methods from ::altek::medical::hardware::hellohal::V1_0::IHelloHal follow.
     Return<void> foo(const hidl_string& name, foo_cb _hidl_cb) override;
-    Return<void> bar(::custFramework::hardware::hellohal::V1_0::HelloTest value) override;
+    Return<void> bar(::altek::medical::hardware::hellohal::V1_0::HelloTest value) override;
 
     // Methods from ::android::hidl::base::V1_0::IBase follow.
 
@@ -36,4 +37,5 @@ struct HelloHal : public IHelloHal {
 }  // namespace V1_0
 }  // namespace hellohal
 }  // namespace hardware
-}  // namespace custFramework
+}  // namespace medical
+}  // namespace altek

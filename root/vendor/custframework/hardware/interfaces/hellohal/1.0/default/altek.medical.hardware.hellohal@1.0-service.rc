@@ -1,0 +1,4 @@
+service vendor.hellohal_hal_service /vendor/bin/hw/altek.medical.hardware.hellohal@1.0-service
+    class hal
+    user system
+    group system

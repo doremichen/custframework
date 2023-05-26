@@ -2,7 +2,7 @@
 # Trigger cust manager in the init process
 #
 
-service custsvr /system/bin/custsvr
+service hpservice /system/bin/hpservice
     class core
     user root
     group root

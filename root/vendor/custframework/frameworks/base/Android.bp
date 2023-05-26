@@ -1,0 +1,29 @@
+//
+// hp framework jar
+//
+// the library
+// =============================================================
+
+java_library {
+    name: "hpframework",
+    installable: true,
+
+    srcs: [
+        "**/*.java",
+        "core/**/I*.aidl",
+    ],
+
+    aidl: {
+        local_include_dirs: ["core/java"],
+    },
+    
+    libs: [
+      "framework",
+    ],
+    
+    static_libs: [
+       "jdt-med",
+       "usblib-med",
+    ],
+
+}

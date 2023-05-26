@@ -1,10 +1,10 @@
 hidl_package_root {
-    name: "custFramework.hardware",
+    name: "altek.medical.hardware",
     use_current: true,
 }
 
 cc_defaults {
-    name: "custFramework_hidl_defaults",
+    name: "medical_hidl_defaults",
     cflags: [
         "-Wall",
         "-Werror",
@@ -13,10 +13,10 @@ cc_defaults {
 
 // VTS tests must link to HAL definition libraries statically.
 cc_defaults {
-    name: "VtsCustFrameworkHalTargetTestDefaults",
+    name: "VtsMedicalHalTargetTestDefaults",
     defaults: [
         "vts_target_tests_defaults",
-        "custFramework_hidl_defaults",
+        "medical_hidl_defaults",
     ],
 
     // Lists all dependencies that can *not* be expected on the device.

@@ -17,11 +17,6 @@ PRODUCT_PACKAGES += custframework \\
       a. create te file in the specified diractory  
          device\sample\sepolicy\generic\vendor\common\custsvr.te  
       b. Add line in file_contexts file as following  
-         /(vendor|system|system/vendor)/bin/custsvr      u:object_r:hpservice_exec:s0  
-~4. Add as the fllowing in root\system\core\rootdir\init.rc~  
-~service CustManager /system/bin/CustManager~  
-~user root~ 
-~group root~ 
-
+         /(vendor|system|system/vendor)/bin/custsvr      u:object_r:hpservice_exec:s0 
 ## Note
 In Android 5.0 and later, SELinux is fully enforced, building on the permissive release of Android 4.3 and the partial enforcement of Android 4.4. With this change, Android shifted from enforcement on a limited set of crucial domains (installd, netd, vold and zygote) to everything (more than 60 domains).

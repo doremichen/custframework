@@ -29,7 +29,7 @@ cc_library_shared {
     include_dirs: [
         // we need to access the private Bionic header
         // <bionic_tls.h> in com_google_android_gles_jni_GLImpl.cpp
-        "vendor/custFramework/frameworks/native/libCustNativeService",
+        "vendor/medical/frameworks/native/libCustNativeService",
     ],
 
     static_libs: [

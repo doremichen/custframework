@@ -1,0 +1,23 @@
+//
+// Cust framework exercise
+//
+
+prebuilt_etc {
+
+    name: "com.hpframework.server.xml",
+
+    // This will install the file in /system/etc/permissions
+    //
+
+    src: "com.hpframework.server.xml",
+    sub_dir: "permissions",
+
+}
+
+prebuilt_etc {
+    name: "privapp_whitelist_com.med.app.hplauncher",
+    product_specific: true,
+    sub_dir: "permissions",
+    src: "privapp-permissions-medical.xml",
+    filename_from_src: true,
+}

@@ -1,0 +1,13 @@
+// Copyright xxx
+// Build dependecies
+java_import_host {
+    name: "usblib",
+    jars: ["lib/libaums.jar"],
+    installable: true,
+}
+
+java_import {
+    name: "usblib-med",
+    jars: ["lib/libaums.jar"],
+}
+

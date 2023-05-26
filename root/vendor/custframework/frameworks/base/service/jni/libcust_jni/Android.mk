@@ -16,9 +16,6 @@ LOCAL_MODULE_TAGS := optional
 # This is the target being built.
 LOCAL_MODULE:= libcust_jni
 
-# Target install path.
-LOCAL_MODULE_RELATIVE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)
-
 # All of the source files that we will compile.
 LOCAL_SRC_FILES:= \
     com_cust_server_SpecialEffectsService.cpp

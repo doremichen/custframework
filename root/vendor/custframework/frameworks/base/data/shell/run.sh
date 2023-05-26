@@ -1,6 +1,13 @@
 #!/system/bin/sh 
 echo "Ma i am here!!!"
 
+if [ "$1" == "" ]
+then
+    echo "No input!! please add the number of test! e.g. source ./run.sh 1000"
+    exit 0
+fi
+
+
 if [ ! -d "/sdcard/logs" ]; then
     mkdir "/sdcard/logs"
     echo "create new dir /sdcard/logs"
@@ -16,7 +23,7 @@ while [ i -le $1 ]
 do 
     i=$(($i + 1)) 
     echo $i 
-    echo "final count: $i" > "/sdcard/logs/cust_monkey_run"$t".log" 
+    echo "final count: $i" > "/sdcard/logs/altek_monkey_run"$t".log" 
     # x y
     x=$(($RANDOM%$X_DIFF))
     y=$(($RANDOM%$Y_DIFF))
@@ -38,5 +45,5 @@ do
     echo $x.$y.$z
 done
 
-echo "Finish cust monkey test!!!"
+echo "Finish altek monkey test!!!"
 

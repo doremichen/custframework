@@ -3,7 +3,7 @@ cc_binary {
     init_rc: ["custserver.rc"],
     srcs: ["CustManager.cpp"],
     include_dirs: [
-        "vendor/custFramework/frameworks/native/libCustNativeService",
+        "vendor/medical/frameworks/native/libCustNativeService",
     ],
     shared_libs: [
         "liblog",

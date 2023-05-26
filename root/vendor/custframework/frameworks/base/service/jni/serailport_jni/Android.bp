@@ -1,0 +1,24 @@
+//
+// serialport jni
+//
+
+cc_library_shared {
+
+    // This is the target being built.
+    name: "libserialport_jni",
+
+    header_libs: ["jni_headers"],
+    
+    // All of the source files that we will compile.
+    srcs: ["com_med_server_serialport_SerialPort.cpp"],
+
+    // All of the shared libraries we link against.
+    shared_libs: [
+        "liblog",
+        "libnativehelper_compat_libc++",
+    ],
+
+    ////strip: {
+    ////    none: true,
+    ////},
+}

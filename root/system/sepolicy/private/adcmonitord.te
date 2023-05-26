@@ -1,0 +1,5 @@
+type adcmonitord, domain;
+type adcmonitord_exec, exec_type, system_file_type, file_type;
+typeattribute adcmonitord coredomain;
+
+init_daemon_domain(adcmonitord)

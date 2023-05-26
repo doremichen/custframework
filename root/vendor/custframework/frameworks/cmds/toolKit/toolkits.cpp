@@ -1,4 +1,4 @@
-//********** COPYRIGHT 2013 xxx Corporation *********************************
+//********** COPYRIGHT 2013 altek Corporation *********************************
 // FILE NAME:   toolkits.cpp
 // VERSION:     $Revision: $
 // DESCRIPTION: toolkits is command execute that can be used to test 
@@ -26,6 +26,7 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <semaphore.h>
+#include <errno.h>
 
 #include <binder/ProcessState.h>
 #include <media/mediaplayer.h>
@@ -130,6 +131,93 @@ static void rebootDevice()
     rebootDevice(RB_AUTOBOOT);
 }
 
+/**
+ * Driver node info
+ */
+const char *DriveInfo[] = {
+    "/sys/bus/iio/devices/iio:device2/in_voltage0_raw",
+    "/sys/bus/iio/devices/iio:device2/in_voltage1_raw",
+    "/sys/bus/iio/devices/iio:device2/in_voltage2_raw",
+    "/sys/bus/iio/devices/iio:device2/in_voltage3_raw",
+};
+
+#define sizeOf(arr) sizeof(arr)/sizeof(&arr[0])
+
+int open_file(const char *fileName)
+{
+    int fd;
+    
+    fd = open(fileName, O_RDWR);
+    if (fd == -1) {
+        perror("open fail!!!");
+    }
+    return fd;
+}
+
+void close_file(int fd)
+{
+    if (close(fd) != 0)
+    {
+        perror("close fail!!!");
+    }
+}
+
+void write_file(int fd, unsigned char val)
+{
+    ssize_t ret;
+    
+    ret = write(fd, &val, 1);
+    if (ret <= 0) {
+        perror("write fail!!!");
+    }
+}
+
+void read_file(int fd)
+{
+    ssize_t ret;
+    const char buf[16] = {'\0'}, *p;
+    
+    ret = read(fd, const_cast<char *>(buf), sizeof(buf));
+    
+    if (ret > 0) {
+        p = buf;
+        while (ret--) {
+            // show
+            printf("%d ", *p++);
+        }
+        printf("\n");
+        
+        // to integer
+        auto value = std::strtol(buf, nullptr, 16);
+        printf("value: %#04lx\n", value);
+        
+    } 
+    else {
+        perror("read fail!!!");
+    }
+
+}
+
+
+static void getIIOState()
+{
+    int fd;
+    unsigned i;
+    size_t number = sizeOf(DriveInfo);
+    
+    // look up driver
+    for (i = 0; i < number; i++) {
+        printf("[path]: %s ===\n", DriveInfo[i]);
+        // open
+        fd = open_file(DriveInfo[i]);
+        // read
+        read_file(fd);
+        // close
+        close_file(fd);
+        printf("==============\n");
+    }
+}
+
 
 struct action {
     const char *arg;
@@ -141,6 +229,7 @@ struct action {
     {"autopressP", AutoPressPowerButton},
     {"pressP", pressPowerButton},
     {"runM", executeMonkey},
+    {"getIIO", getIIOState},
     {NULL, NULL},
 };
 
@@ -203,6 +292,7 @@ int main(int argc, char* const argv[])
         printf("             runM run Monkey\n");
         printf("             shutdown shutdown device\n");
         printf("             reboot reboot device\n");
+        printf("             getIIO get io driver\n");
         printf("       opt: h\n");
         printf("Example:toolkits test\n");
                 

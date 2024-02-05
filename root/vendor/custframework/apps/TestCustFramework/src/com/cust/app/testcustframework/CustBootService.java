@@ -17,8 +17,8 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.cust.system.server.HpSystemServer;
-import com.cust.system.server.HpSystemServer.ACTION;
+import com.cust.system.server.CustSystemServer;
+import com.cust.system.server.CustSystemServer.ACTION;
 //import custdroid.util.Print;
 
 public class CustBootService extends Service {
@@ -42,7 +42,7 @@ public class CustBootService extends Service {
         //    startForeground(SERVICE_STARTED_NOTIFICATION_ID, new Notification());
         //}
        // start to add heliosPro service in system server
-        HpSystemServer.init(this.getApplicationContext());
+        CustSystemServer.init(this.getApplicationContext());
     }
 
     @Override

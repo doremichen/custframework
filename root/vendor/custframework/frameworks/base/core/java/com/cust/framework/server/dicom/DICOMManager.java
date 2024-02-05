@@ -4,7 +4,7 @@
 
 package com.cust.framework.server.dicom;
 
-import com.cust.system.server.HpSystemCoreServer;
+import com.cust.system.server.CustSystemCoreServer;
 import com.cust.framework.util.Print;
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ import org.dcm4che3.tool.jpg2dcm.Jpg2Dcm;
 /**
  * The DICOMManager would transit the data to PACS server
  */
-public class DICOMManager extends HpSystemCoreServer {
+public class DICOMManager extends CustSystemCoreServer {
     private static final String TAG = DICOMManager.class.getSimpleName();
 
     @Override

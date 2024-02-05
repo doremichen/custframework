@@ -14,7 +14,7 @@ import android.os.ServiceManager;
 import android.os.storage.DiskInfo;
 import android.os.storage.VolumeInfo;
 
-import com.cust.system.server.HpSystemServer;
+import com.cust.system.server.CustSystemServer;
 import com.cust.framework.util.Print;
 import com.cust.framework.server.phantom.IPhantom;
 
@@ -45,7 +45,7 @@ public final class Phantom
      */
      private Phantom() {
         mBpPhantomService = IPhantom.Stub.asInterface(
-                             ServiceManager.getService(HpSystemServer.NAME.PHANTOM));
+                             ServiceManager.getService(CustSystemServer.NAME.PHANTOM));
         if (!checkServiceProxyValid()) {
             Print.i(TAG, "phantom service proxy is null!!!");
             return;

@@ -1,5 +1,5 @@
 /**
- * File: HpSystemCoreServer.java
+ * File: CustSystemCoreServer.java
  * Breif: Facade controller
  *
  * Name: 
@@ -9,7 +9,7 @@
 package com.cust.system.server;
 
 
-public abstract class HpSystemCoreServer {
+public abstract class CustSystemCoreServer {
 
     /**
      * Called when the system core service should be start 

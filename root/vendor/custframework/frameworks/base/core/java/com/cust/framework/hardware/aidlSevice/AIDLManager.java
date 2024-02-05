@@ -7,7 +7,7 @@ import android.os.Binder;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 
-import com.cust.system.server.HpSystemServer;
+import com.cust.system.server.CustSystemServer;
 import com.cust.framework.util.Print;
 import com.cust.framework.hardware.aidlSevice.IAIDLJavaService;
 import com.cust.framework.hardware.aidlSevice.IAIDLJavaServiceCallback;
@@ -84,7 +84,7 @@ public final class AIDLManager
         Print.i(TAG, "[init] enter");
         this.mListener = listener;
         mBpAIDLJavaService = IAIDLJavaService.Stub.asInterface(
-                           ServiceManager.getService(HpSystemServer.NAME.AIDLService));
+                           ServiceManager.getService(CustSystemServer.NAME.AIDLService));
         if (!checkServiceProxyValid()) {
             // notify UI
             if (listener != null) {

@@ -1,5 +1,5 @@
 /**
- * File: HpSystemServer.java
+ * File: CustSystemServer.java
  * Breif: Facade controller
  *
  * Name: 
@@ -19,8 +19,8 @@ import com.cust.server.SpecialEffectsService;
 import com.cust.server.phantom.PhantomService;
 import com.cust.server.aidlservice.AIDLJavaService;
 
-public final class HpSystemServer {
-    private static final String TAG = HpSystemServer.class.getSimpleName();
+public final class CustSystemServer {
+    private static final String TAG = CustSystemServer.class.getSimpleName();
 
     public interface ACTION {
         String SWITCH_ADB_FUNCTION = "action.switch.adb.function";
@@ -60,7 +60,7 @@ public final class HpSystemServer {
     }
     
     // core service info
-    private static HpSystemCoreServer[] sCoreServices = {
+    private static CustSystemCoreServer[] sCoreServices = {
         
         new DICOMManager(),
         
@@ -93,7 +93,7 @@ public final class HpSystemServer {
             Print.i(TAG,"system framewaork system services are ready...");
             
             Print.i(TAG,"start system framework core services....");
-            for (HpSystemCoreServer coreSvr: sCoreServices) {
+            for (CustSystemCoreServer coreSvr: sCoreServices) {
                 String name = coreSvr.getClass().getSimpleName();
                 Print.i(TAG,"start " + name);
                 coreSvr.onStart();

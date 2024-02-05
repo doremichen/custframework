@@ -11,11 +11,14 @@ package com.cust.app.testcustframework;
 import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
+import android.content.ContentResolver;
 import android.os.Build;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.util.Log;
 
-import custdroid.hardware.CustSystemServer;
+import com.cust.system.server.HpSystemServer;
+import com.cust.system.server.HpSystemServer.ACTION;
 //import custdroid.util.Print;
 
 public class CustBootService extends Service {
@@ -38,6 +41,8 @@ public class CustBootService extends Service {
         //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         //    startForeground(SERVICE_STARTED_NOTIFICATION_ID, new Notification());
         //}
+       // start to add heliosPro service in system server
+        HpSystemServer.init(this.getApplicationContext());
     }
 
     @Override
@@ -52,7 +57,25 @@ public class CustBootService extends Service {
         Log.i(TAG, "[onStartCommand] enter");
         //Print.info(this, "[onStartCommand]");
         // start to add cust service in system server
-        CustSystemServer.init();
-        return super.onStartCommand(intent, flags, startId);
+        if (intent != null) {
+              String action = intent.getAction();
+              if (ACTION.SWITCH_ADB_FUNCTION.equals(action)) {
+                togleAdbConfig(getContentResolver());
+              }
+          }
+        return START_STICKY;
     }
+
+
+    private void togleAdbConfig(ContentResolver resolver) {
+        if (Settings.Global.getInt(resolver, Settings.Global.ADB_ENABLED, 0) == 0) {
+            // enable
+            Settings.Global.putInt(resolver, Settings.Global.ADB_ENABLED, 1);
+        } else {
+            // disable
+             Settings.Global.putInt(resolver, Settings.Global.ADB_ENABLED, 0);
+        }
+    }
+
+
 }

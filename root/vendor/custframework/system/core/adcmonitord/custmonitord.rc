@@ -1,0 +1,8 @@
+#
+# Trigger cust monitord service in the init process
+#
+
+service custmonitord /system/bin/custmonitord
+    class core
+    user root
+    group root

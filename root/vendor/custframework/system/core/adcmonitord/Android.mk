@@ -1,5 +1,5 @@
 #
-# ADS7914 service
+# adc monitor service
 #
 
 LOCAL_PATH := $(call my-dir)
@@ -24,7 +24,7 @@ LOCAL_SHARED_LIBRARIES := \
     libutils \
 
 
-LOCAL_INIT_RC := adcmonitord.rc        #android 7.0
-LOCAL_SRC_FILES := adcmonitord.cpp
-LOCAL_MODULE:= adcmonitord
+LOCAL_INIT_RC := custmonitord.rc        #android 7.0
+LOCAL_SRC_FILES := custmonitord.cpp
+LOCAL_MODULE:= custmonitord
 include $(BUILD_EXECUTABLE)

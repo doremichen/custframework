@@ -1,0 +1,23 @@
+//
+// Cust framework exercise
+//
+
+android_app {
+    name: "TestCustFramework",
+
+    platform_apis: true,
+
+    srcs: ["src/**/*.java"],
+
+    // We need to assign platform key to use ServiceManager.addService.
+    certificate: "platform",
+
+    // Also link against our own custom library.
+    libs: ["custframework"],
+    
+    product_specific: true,
+    privileged: true,
+    
+    required: ["privapp_whitelist_com.cust.app.testcustframework"],
+
+}

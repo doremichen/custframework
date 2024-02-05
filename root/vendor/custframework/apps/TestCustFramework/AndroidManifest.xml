@@ -9,20 +9,30 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
         
+        <uses-permission android:name="android.permission.MASTER_CLEAR" />
         <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+        <uses-permission android:name="android.permission.INJECT_EVENTS"/>
+        <uses-permission android:name="android.permission.DUMP"/>
+        <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
+        <uses-permission android:name="android.permission.REBOOT"/>
+        <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+         android:icon="@drawable/ic_launcher"
+         android:label="@string/app_name"
+         android:allowClearUserData="false"
+         android:supportsRtl="true"
+         android:defaultToDeviceProtectedStorage="true"
+         android:directBootAware="true"
+         android:theme="@style/AppTheme" >
         
         <!-- This tells the system about the custom library used by the
              application, so that it can be properly loaded and linked
              to the app when the app is initialized. -->
         <uses-library android:name="com.custframework.server" />
         
-<activity
+        <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
@@ -32,13 +42,21 @@
             </intent-filter>
         </activity>
         <receiver android:name=".CustAppReceiver"
-                  android:exported="false">
+                  android:exported="false"
+                  android:directBootAware="true">
             <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
         <service android:name=".CustBootService"
-                 android:exported="false"/>
+                 android:directBootAware="true"
+                 android:exported="true"
+                 android:enabled="true">
+             <intent-filter>
+                 <action android:name="action.switch.adb.function"/>
+             </intent-filter>
+        </service>
     </application>
 
 </manifest>

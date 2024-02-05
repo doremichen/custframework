@@ -4,20 +4,20 @@
 
 prebuilt_etc {
 
-    name: "com.hpframework.server.xml",
+    name: "com.custframework.server.xml",
 
     // This will install the file in /system/etc/permissions
     //
 
-    src: "com.hpframework.server.xml",
+    src: "com.custframework.server.xml",
     sub_dir: "permissions",
 
 }
 
 prebuilt_etc {
-    name: "privapp_whitelist_com.med.app.hplauncher",
+    name: "privapp_whitelist_com.cust.app.testcustframework",
     product_specific: true,
     sub_dir: "permissions",
-    src: "privapp-permissions-medical.xml",
+    src: "privapp-permissions-cust.xml",
     filename_from_src: true,
 }

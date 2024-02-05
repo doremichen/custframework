@@ -1,11 +1,11 @@
 //
-// hp framework jar
+//cust framework jar
 //
 // the library
 // =============================================================
 
 java_library {
-    name: "hpframework",
+    name: "custframework",
     installable: true,
 
     srcs: [
@@ -22,8 +22,7 @@ java_library {
     ],
     
     static_libs: [
-       "jdt-med",
-       "usblib-med",
+       "cust-jdt-med",
     ],
 
 }

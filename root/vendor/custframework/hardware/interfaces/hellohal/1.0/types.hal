@@ -2,7 +2,7 @@
  * Define common type
  */
  
- package altek.medical.hardware.hellohal@1.0;
+ package custframework.hardware.hellohal@1.0;
  
  /**
   * HelloTest

@@ -1,15 +1,14 @@
 // FIXME: your file license if you have one
 
 cc_binary {
-    name: "altek.medical.hardware.hellohal@1.0-service",
+    name: "custframework.hardware.hellohal@1.0-service",
     defaults: ["hidl_defaults"],
     relative_install_path: "hw",
     proprietary: true,
-    init_rc: ["altek.medical.hardware.hellohal@1.0-service.rc"],
+    init_rc: ["custframework.hardware.hellohal@1.0-service.rc"],
     srcs: ["service.cpp",
-            "HelloHal.cpp",
-          ],
-
+        "HelloHal.cpp",
+    ],
     shared_libs: [
         "liblog",
         "libcutils",
@@ -19,7 +18,7 @@ cc_binary {
         "libhardware",
         "libhidlbase",
         "libhidltransport",
-        "altek.medical.hardware.hellohal@1.0",
+        "libutils",
+        "custframework.hardware.hellohal@1.0",
     ],
-
 }

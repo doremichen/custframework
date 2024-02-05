@@ -16,12 +16,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.app.ListActivity;
 
-import custdroid.hardware.SpecialEffectManager;
-import custdroid.hardware.SpecialEffectManager.OnStatusListener;
-import custdroid.util.Print;
+import com.cust.framework.hardware.specialEffect.SpecialEffectManager;
+import com.cust.framework.hardware.specialEffect.SpecialEffectManager.OnStatusListener;
+import com.cust.framework.util.Print;
 
 
 public class MainActivity extends ListActivity implements OnStatusListener {
+    
+    private static final String TAG = MainActivity.class.getSimpleName();
     
     private SpecialEffectManager mSPEManager;
     
@@ -40,7 +42,7 @@ public class MainActivity extends ListActivity implements OnStatusListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Print.info(this, "[onCreate] enter");
+        Print.i(TAG, "[onCreate] enter");
         
         mSPEManager = SpecialEffectManager.getInstance();
         mSPEManager.init(this);
@@ -64,7 +66,7 @@ public class MainActivity extends ListActivity implements OnStatusListener {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Print.info(this, "onListItemClick: position[" + position + "]");
+        Print.i(TAG, "onListItemClick: position[" + position + "]");
         switch(position) {
             case ITEM1:
                 mSPEManager.turnOn();

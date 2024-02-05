@@ -9,7 +9,7 @@ LOCAL_SRC_FILES:= \
     nativeservice_test.cpp
 
 LOCAL_C_INCLUDES := \
-    vendor/medical/frameworks/native/libCustNativeService \
+    $(LOCAL_PATH)/../  \
     external/gtest/include
 
 LOCAL_STATIC_LIBRARIES := \

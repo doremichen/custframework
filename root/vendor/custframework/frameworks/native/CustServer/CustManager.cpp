@@ -11,9 +11,7 @@
 #include <binder/IServiceManager.h>  
 #include <utils/Log.h>
 #include <NativeService.h>
-#include <NativeEndoscopeService.h>
-#include <NativeLedService.h>
-#include <ADCButtonService.h>
+#include <AIDLService.h>
 
 #define noinline __attribute__((__noinline__))
 #define __unused __attribute__((__unused__))
@@ -27,10 +25,8 @@ int main(int argc __unused, char* argv[] __unused)
     sp<IServiceManager> sm = defaultServiceManager();  
     ALOGI("ServiceManager: %p", sm.get());  
     
-    NativeService::instantiate(); 
-    NativeEndoscopeService::instantiate();
-    NativeLedService::instantiate();
-    ADCButtonService::instantiate();
+    NativeService::instantiate();
+    AIDLService::instantiate();
     
     ProcessState::self()->startThreadPool();  
     IPCThreadState::self()->joinThreadPool();  

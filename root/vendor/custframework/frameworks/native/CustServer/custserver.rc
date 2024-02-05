@@ -2,7 +2,7 @@
 # Trigger cust manager in the init process
 #
 
-service hpservice /system/bin/hpservice
+service custNativeServer /system/bin/custNativeServer
     class core
     user root
     group root

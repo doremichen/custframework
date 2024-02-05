@@ -12,9 +12,9 @@ import android.os.Binder;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 
-import com.med.hpframework.hardware.IServiceCallBack;
-import com.med.hpframework.hardware.ISpecialEffectService;
-import com.med.hpframework.util.HpLog;
+import com.cust.framework.hardware.specialEffect.IServiceCallBack;
+import com.cust.framework.hardware.specialEffect.ISpecialEffectService;
+import com.cust.framework.util.Print;
 
 
 /**
@@ -32,7 +32,7 @@ public final class SpecialEffectsService extends ISpecialEffectService.Stub {
     }
 
     public SpecialEffectsService() {
-       HpLog.i(TAG, "SpecialEffectsService startup");
+       Print.i(TAG, "SpecialEffectsService startup");
     }
     
     /**
@@ -46,17 +46,17 @@ public final class SpecialEffectsService extends ISpecialEffectService.Stub {
          
          
          public void registerCB(IServiceCallBack cb) {
-             HpLog.i(TAG, "registerCB");
+             Print.i(TAG, "registerCB");
              mCallBacks.register(cb);
          }
          
          public void unregisterCB(IServiceCallBack cb) {
-             HpLog.i(TAG, "unregisterCB");
+             Print.i(TAG, "unregisterCB");
              mCallBacks.unregister(cb);
          }
          
          public void triggerCB(String msg) {
-             HpLog.i(TAG, "triggerCB");
+             Print.i(TAG, "triggerCB");
              final int N = mCallBacks.beginBroadcast();
                      for (int i = 0; i < N; i++) {
                          try {
@@ -80,7 +80,7 @@ public final class SpecialEffectsService extends ISpecialEffectService.Stub {
      */
     @Override
     public boolean SpecialEffectInit() {
-       HpLog.i(TAG, "SpecialEffectInit");
+       Print.i(TAG, "SpecialEffectInit");
        long ident = Binder.clearCallingIdentity();
        int ret;
        try {
@@ -100,7 +100,7 @@ public final class SpecialEffectsService extends ISpecialEffectService.Stub {
      */
     @Override
     public boolean SpecialEffectsOn() {
-        HpLog.i(TAG, "SpecialEffectsOn");
+        Print.i(TAG, "SpecialEffectsOn");
         long ident = Binder.clearCallingIdentity();
         int ret;
         try {
@@ -119,7 +119,7 @@ public final class SpecialEffectsService extends ISpecialEffectService.Stub {
      */
     @Override
     public boolean SpecialEffectsOff() {
-        HpLog.i(TAG, "SpecialEffectsOff");
+        Print.i(TAG, "SpecialEffectsOff");
         long ident = Binder.clearCallingIdentity();
         int ret;
         try {
@@ -137,7 +137,7 @@ public final class SpecialEffectsService extends ISpecialEffectService.Stub {
      */
     @Override
     public void release() {
-        HpLog.i(TAG, "release");
+        Print.i(TAG, "release");
         long ident = Binder.clearCallingIdentity();
         int ret;
         try {
@@ -149,7 +149,7 @@ public final class SpecialEffectsService extends ISpecialEffectService.Stub {
  
     @Override
     public void registerCallBack(IServiceCallBack callback) {
-        HpLog.i(TAG, "registerCallBack callback = " + callback.getClass().getSimpleName());
+        Print.i(TAG, "registerCallBack callback = " + callback.getClass().getSimpleName());
         long ident = Binder.clearCallingIdentity();
         try {
             if (callback != null) ServiceHandler.INSTANCE.registerCB(callback);
@@ -161,7 +161,7 @@ public final class SpecialEffectsService extends ISpecialEffectService.Stub {
     
     @Override
     public void unregisterCallBack(IServiceCallBack callback) {
-        HpLog.i(TAG, "unregisterCallBack callback = " + callback.getClass().getSimpleName());
+        Print.i(TAG, "unregisterCallBack callback = " + callback.getClass().getSimpleName());
         long ident = Binder.clearCallingIdentity();
         try {
             if (callback != null) ServiceHandler.INSTANCE.unregisterCB(callback);
@@ -182,7 +182,7 @@ public final class SpecialEffectsService extends ISpecialEffectService.Stub {
      * invoke from jni
      */
      private void notifyFromNative(String msg) {
-         HpLog.i(TAG, "[notifyFromNative]: msg = " + msg);
+         Print.i(TAG, "[notifyFromNative]: msg = " + msg);
          
          // notify client
          ServiceHandler.INSTANCE.triggerCB(msg);

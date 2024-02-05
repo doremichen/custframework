@@ -1,6 +1,6 @@
-#define LOG_TAG "altek.medical.hardware.hellohal@1.0-service"
+#define LOG_TAG "custframework.hardware.hellohal@1.0-service"
 
-#include <altek/medical/hardware/hellohal/1.0/IHelloHal.h>
+#include <custframework/hardware/hellohal/1.0/IHelloHal.h>
 
 #include <hidl/LegacySupport.h>
 #include "HelloHal.h"
@@ -12,8 +12,8 @@ using android::OK;
 
 
 // Generated HIDL files
-using altek::medical::hardware::hellohal::V1_0::IHelloHal;
-using altek::medical::hardware::hellohal::V1_0::implementation::HelloHal;
+using custframework::hardware::hellohal::V1_0::IHelloHal;
+using custframework::hardware::hellohal::V1_0::implementation::HelloHal;
 
 using android::hardware::defaultPassthroughServiceImplementation;
 using android::hardware::configureRpcThreadpool;

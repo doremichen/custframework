@@ -13,6 +13,6 @@ LOCAL_SHARED_LIBRARIES := \
             libbinder
 
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE:= toolkits
+LOCAL_MODULE:= custToolkits
 
 include $(BUILD_EXECUTABLE)

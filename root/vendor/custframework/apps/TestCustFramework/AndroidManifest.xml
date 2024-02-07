@@ -42,7 +42,7 @@
             </intent-filter>
         </activity>
         <receiver android:name=".CustAppReceiver"
-                  android:exported="false"
+                  android:exported="true"
                   android:directBootAware="true">
             <intent-filter android:priority="2147483647">
                 <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>

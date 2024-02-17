@@ -54,9 +54,12 @@ allow priv_app stats_service:service_manager find;
 binder_call(priv_app, gpuservice)
 allow priv_app gpu_service:service_manager find;
 
-# Allow privileged apps to interact with hpservice
-binder_call(priv_app, hpservice)
-allow priv_app hp_service:service_manager find;
+# Allow privileged apps to interact with cust_native_server
+binder_call(priv_app, cust_native_server)
+allow priv_app spe_service:service_manager find;
+allow priv_app phantom_service:service_manager find;
+allow priv_app cust_native_service:service_manager find;
+allow priv_app cust_aidl_service:service_manager find;
 
 # Write to /cache.
 allow priv_app { cache_file cache_recovery_file }:dir create_dir_perms;

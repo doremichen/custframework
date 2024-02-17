@@ -33,7 +33,8 @@ public final class AIDLManagerEx {
     }
     
     public void testCallback() {
-        invokeListener("I am call back test!!!");
+        AIDLManager.newInstance().testCBfromNative();
+        //invokeListener("I am call back test!!!");
     }
     
     private class AIDLJavaServiceCallback implements AIDLManager.onAIDLCallerListener {

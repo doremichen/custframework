@@ -149,4 +149,4 @@
     vendor_task_profiles_file
     vrflinger_vsync_service
     watchdogd_tmpfs
-    hp_service))
+    custNativeServer_exec))

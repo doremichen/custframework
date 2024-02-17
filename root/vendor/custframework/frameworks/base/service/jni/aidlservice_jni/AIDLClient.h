@@ -29,6 +29,7 @@ public:
      
      int init_module();
      void setAIDLServiceCallback(const sp<IAIDLServiceCallback>& callback);
+     void testCallback();
      
      void exit();
                  

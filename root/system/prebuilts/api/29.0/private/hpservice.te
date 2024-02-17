@@ -1,5 +1,0 @@
-type hpservice, domain;
-type hpservice_exec, exec_type, system_file_type, file_type;
-typeattribute hpservice coredomain;
-
-init_daemon_domain(hpservice)

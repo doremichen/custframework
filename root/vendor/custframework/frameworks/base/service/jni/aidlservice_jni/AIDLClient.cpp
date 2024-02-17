@@ -77,6 +77,18 @@ namespace android
         ALOGV("[%s] exit\n", __FUNCTION__);
     }
     
+    void AIDLClient::testCallback() {
+        ALOGV("[%s] enter\n", __FUNCTION__);
+        if (BpAIDLService == nullptr) {
+            ALOGE("BpAIDLService is null!!!");
+            return;
+         }
+         
+        BpAIDLService -> testCallback();
+        
+        ALOGV("[%s] exit\n", __FUNCTION__);
+    }
+    
     /**
      * Get binder proxy via system service
      */

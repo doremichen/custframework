@@ -5,7 +5,6 @@
 # System files
 #
 ....
-/system/bin/hpservice      u:object_r:hpservice_exec:s0
-/system/bin/adcmonitord      u:object_r:adcmonitord_exec:s0
+/system/bin/custNativeServer      u:object_r:cust_native_server:s0
 
 ....

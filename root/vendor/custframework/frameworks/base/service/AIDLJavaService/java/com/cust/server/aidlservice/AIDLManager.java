@@ -53,6 +53,11 @@ public final class AIDLManager {
         }
     }
     
+    public void testCBfromNative() {
+        Print.i(TAG, "[testCBfromNative] enter");
+        native_testCB();
+    }
+    
     private void invokeListener(String msg) {
         Print.i(TAG, "invokeListener");
         // check listener validity
@@ -72,6 +77,7 @@ public final class AIDLManager {
      * jni method section
      */
     private native int native_init();
+    private native void native_testCB();
     
     /**
      * invoke from jni

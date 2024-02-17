@@ -145,8 +145,24 @@ init(JNIEnv *env, jobject thiz)
     return ret;
 }
 
+static void
+testCallback(JNIEnv *env, jobject thiz)
+{
+    ALOGV("[%s] enter\n", __FUNCTION__);
+        
+    if(pClient == nullptr) {
+        ALOGE("No native adc buuton client hanlder!!!");
+        return;
+    }    
+
+    pClient -> testCallback();
+    
+    ALOGV("[%s] exit \n", __FUNCTION__);
+}
+
 static JNINativeMethod gMethods[] = {
     {"native_init", "()I", (void*) init},
+    {"native_testCB", "()I", (void*) testCallback},
 };
 
 static int registerMethods(JNIEnv* env) 

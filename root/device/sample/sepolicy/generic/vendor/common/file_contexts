@@ -2,5 +2,5 @@
 ##########################
 # selinux permission policy
 #
-/(vendor|system|system/vendor)/bin/custsvr      u:object_r:hpservice_exec:s0
+/(vendor|system|system/vendor)/bin/custNativeServer      u:object_r:custsvr_exec:s0
 

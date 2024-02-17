@@ -68,14 +68,17 @@ allow platform_app app_api_service:service_manager find;
 allow platform_app system_api_service:service_manager find;
 allow platform_app vr_manager_service:service_manager find;
 allow platform_app gpu_service:service_manager find;
-allow platform_app hp_service:service_manager find;
+allow platform_app spe_service:service_manager find;
+allow platform_app phantom_service:service_manager find;
+allow platform_app cust_native_service:service_manager find;
+allow platform_app cust_aidl_service:service_manager find;
 allow platform_app stats_service:service_manager find;
 
 # Allow platform apps to interact with gpuservice
 binder_call(platform_app, gpuservice)
 
-# Allow platform apps to interact with hpservice
-binder_call(platform_app, hpservice)
+# Allow platform apps to interact with cust_native_server
+binder_call(platform_app, cust_native_server)
 
 # Allow platform apps to log via statsd.
 allow platform_app statsd:binder call;

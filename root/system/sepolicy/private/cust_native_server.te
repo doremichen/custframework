@@ -1,0 +1,5 @@
+type cust_native_server, domain;
+type cust_native_server_exec, exec_type, system_file_type, file_type;
+typeattribute cust_native_server coredomain;
+
+init_daemon_domain(cust_native_server)

@@ -1,0 +1,4 @@
+type spe_service,               system_server_service, service_manager_type;
+type phantom_service,           system_server_service, service_manager_type;
+type cust_native_service,       system_server_service, service_manager_type;
+type cust_aidl_service,               system_server_service, service_manager_type;

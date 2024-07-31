@@ -1,0 +1,34 @@
+java_library {
+    name: "RsLib",
+    installable: true,
+
+    srcs: [
+        "src/**/*.java",
+        ":RsLib-rscript",
+    ],
+    
+    
+}
+
+genrule {
+    name: "RsLib-rscript",
+    srcs: [
+        "src/**/*.rs",
+        ":rs_script_api",
+        ":rs_clang_headers",
+    ],
+    tools: [
+        "llvm-rs-cc",
+        "soong_zip",
+    ],
+    out: [
+        "RsLib.srcjar"
+    ],
+    cmd: "for f in $(locations src/**/*.rs); do " +
+        "  $(location llvm-rs-cc) -Wno-error=deprecated-declarations " +
+        "  -o $(genDir)/res/raw -p $(genDir)/src " +
+        "  -I $$(dirname $$(echo $(locations :rs_script_api) | awk '{ print $$1 }')) " +
+        "  -I $$(dirname $$(echo $(locations :rs_clang_headers) | awk '{ print $$1 }')) $${f}; " +
+        "done && " +
+        "$(location soong_zip) -jar -o $(location RsLib.srcjar) -C $(genDir)/src -D $(genDir)/src",
+}

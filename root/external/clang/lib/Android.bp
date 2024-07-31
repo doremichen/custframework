@@ -1,0 +1,7 @@
+subdirs = ["*"]
+
+filegroup {
+    name: "rs_clang_headers",
+    srcs: ["Headers/*.h"],
+    path: "Headers",
+}

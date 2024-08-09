@@ -111,13 +111,13 @@ public final class CustSystemServer {
         Print.i(TAG, "Entered the HeliosP system java framework server!");
         sContext = context;
         Thread thr = new initThread();
-        thr.setName("heliosp.system server.thread");
+        thr.setName("cust.system server.thread");
         thr.start();
         
     }
     
     /**
-     * send switch adb function request to heliosp system service
+     * send switch adb function request to cust system service
      * 
      */
     public static final void switchAdbFunc(Context context) {
@@ -125,7 +125,7 @@ public final class CustSystemServer {
         // intent
         Intent it = new Intent();
         it.setAction(ACTION.SWITCH_ADB_FUNCTION);
-        it.setPackage("com.cust.app.hpservice");
+        it.setPackage("com.cust.app.testcustframework");
         context.startService(it);
         Print.i(TAG, "[swichAdbFunc] +++");
     }
